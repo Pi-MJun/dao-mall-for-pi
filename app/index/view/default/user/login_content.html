@@ -107,6 +107,25 @@
             </div>
         {{/if}}
 
+        {{if in_array('pi', $home_user_login_type)}}
+            <div data-tab-panel-0 class="am-tab-panel am-active">
+                <!-- form start -->
+                <label>使用Pi账号登录</label>
+                <button onclick="getPiUserInfo"> Pi认证 </button>
+
+                <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
+                    
+
+
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                        <input type="hidden" name="type" value="pi" />
+                        <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        {{/if}}
+
         <div class="am-padding-horizontal-lg am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
             <!-- 用户登录内底部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -143,3 +162,23 @@
         {{/if}}
     {{/foreach}}
 {{/if}}
+
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+    Pi.init({ version: "2.0" , sandbox: true});
+    console.log(Pi);
+
+    function onIncompletePaymentFound(payment) {
+        console.log("call onIncompletePaymentFound");
+    };
+
+    function getPiUserInfo(){
+        Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
+            console.log(`Hi there! You're ready to make payments!`);
+        }).catch(function(error) {
+            console.error(error);
+        });
+    }
+
+</script>

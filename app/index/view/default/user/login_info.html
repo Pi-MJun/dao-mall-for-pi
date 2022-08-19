@@ -62,6 +62,10 @@
 
 {{include file="public/footer" /}}
 
+
+<!-- <script src="https://sdk.minepi.com/pi-sdk.js"></script> -->
+
+
 <script type="text/javascript">
 // 登录成功回调
 function LoginBackHandle(e)
@@ -86,4 +90,22 @@ function LoginBackHandle(e)
         Prompt(e.msg);
     }
 }
+
+
+    // Pi.init({ version: "2.0" , sandbox: true});
+    // console.log(Pi);
+
+    // function onIncompletePaymentFound(payment) {
+    //     console.log("call onIncompletePaymentFound");
+    // };
+
+    // function getPiUserInfo(){
+    //     Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
+    //         console.log(`Hi there! You're ready to make payments!`);
+    //     }).catch(function(error) {
+    //         console.error(error);
+    //     });
+    // }
+
+
 </script>
