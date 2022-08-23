@@ -120,10 +120,18 @@
     <script type='text/javascript' src="{{$public_host}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
+<!-- 总是加载pi -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
 <!-- 当前控制器js -->
+<!-- {{if !empty($module_js)}}
+    <script type='text/javascript' src="{{$public_host}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}} -->
+
 {{if !empty($module_js)}}
-	<script type='text/javascript' src="{{$public_host}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$module_js}}"></script>
 {{/if}}
+
 
 <!-- 底部信息 --> 
 {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}

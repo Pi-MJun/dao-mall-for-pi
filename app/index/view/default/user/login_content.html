@@ -10,6 +10,9 @@
             {{if in_array('sms', $home_user_login_type)}}
                 <li class="{{if !in_array('username', $home_user_login_type) and !in_array('email', $home_user_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">手机验证码</a></li>
             {{/if}}
+            {{if in_array('pi', $home_user_login_type)}}
+                <li class="{{if !in_array('username', $home_user_login_type) and !in_array('email', $home_user_login_type) and !in_array('sms', $home_user_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-3]">Pi授权登录</a></li>
+            {{/if}}
         </ul>
     {{/if}}
     <div class="am-tabs-bd">
@@ -110,12 +113,23 @@
         {{if in_array('pi', $home_user_login_type)}}
             <div data-tab-panel-0 class="am-tab-panel am-active">
                 <!-- form start -->
-                <label>使用Pi账号登录</label>
-                <button onclick="getPiUserInfo"> Pi认证 </button>
 
                 <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
                     
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>用户名</label>
+                        <input type="text" name="piusername" class="am-radius am-form-field" placeholder="请输入用户名/手机/邮箱" data-validation-message="请填写登录账号" autocomplete="off" required />
+                    </div>
 
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>UID</label>
+                        <input type="text" name="piuid" class="am-radius am-form-field" placeholder="请输入用户名/手机/邮箱" data-validation-message="请填写登录账号" autocomplete="off" required />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>Token</label>
+                        <input type="text" name="pitoken" class="am-radius am-form-field" placeholder="请输入用户名/手机/邮箱" data-validation-message="请填写登录账号" autocomplete="off" required />
+                    </div>
 
                     <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
                         <input type="hidden" name="type" value="pi" />
@@ -164,21 +178,3 @@
 {{/if}}
 
 
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-    Pi.init({ version: "2.0" , sandbox: true});
-    console.log(Pi);
-
-    function onIncompletePaymentFound(payment) {
-        console.log("call onIncompletePaymentFound");
-    };
-
-    function getPiUserInfo(){
-        Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
-            console.log(`Hi there! You're ready to make payments!`);
-        }).catch(function(error) {
-            console.error(error);
-        });
-    }
-
-</script>

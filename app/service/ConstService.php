@@ -109,6 +109,7 @@ class ConstService
                 0 => ['value' => 'username', 'name' => '帐号密码', 'checked' => true],
                 1 => ['value' => 'email', 'name' => '邮箱验证码'],
                 2 => ['value' => 'sms', 'name' => '手机验证码'],
+                2 => ['value' => 'pi', 'name' => 'Pi授权登录'],
             ],
             
             // 性别

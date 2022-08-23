@@ -16,6 +16,7 @@ use app\service\RegionService;
 use app\service\SafetyService;
 use app\service\ResourcesService;
 use app\service\SystemBaseService;
+use think\facade\Log;
 
 /**
  * 用户服务层
@@ -748,6 +749,9 @@ class UserService
             return $ret;
         }
 
+        Log::info("用户登录：");
+        Log::info($params);
+
         // 请求参数
         $p = [
             [
@@ -768,24 +772,31 @@ class UserService
             return DataReturn($ret, -1);
         }
 
+        Log::info("验证 common_login_type_list 通过");
+
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
         {
             return DataReturn('暂时关闭登录', -1);
         }
 
+        Log::info("验证 home_user_login_type 通过");
+
         // 账户校验
         $ac = self::UserLoginAccountsCheck($params);
+        Log::info($ac);
         if($ac['code'] != 0)
         {
             return $ac;
         }
+        Log::info("账户校验 通过");
 
         // 验证参数
         $verify_params = [
             'key_prefix'    => 'user_login_'.md5($params['accounts']),
             'expire_time'   => MyC('common_verify_expire_time'),
         ];
+        
 
         // 帐号密码登录需要校验密码
         if($params['type'] == 'username')
@@ -832,6 +843,12 @@ class UserService
                     $obj = new \base\Email($verify_params);
                     break;
 
+                // Pi 无需验证
+                case 'pi' :
+                    $params['accounts'] = $params['piusername'];
+                    break;
+
+
                 // 未知的字段
                  default :
                     return DataReturn('验证类型有误', -1);
@@ -853,13 +870,23 @@ class UserService
                 }
             }
         }
+        Log::info("验证参数 通过");
 
+
+        Log::info("开始获取用户账户信息");
+        Log::info($ac['data']);
+        Log::info($params['accounts']);
         // 获取用户账户信息
         $user = self::UserInfo($ac['data'], $params['accounts']);
+        Log::info($user);
         if(empty($user))
         {
+
             return DataReturn('帐号不存在', -3);
         }
+        Log::info($user);
+        Log::info("获取用户账户信息 通过");
+
 
         // 密码校验
         // 帐号密码登录需要校验密码
@@ -997,6 +1024,11 @@ class UserService
      */
     public static function Reg($params = [])
     {
+
+        Log::info("注册一个账户");
+        Log::info($params);
+
+
         // 数据验证
         $p = [
             [
@@ -1028,6 +1060,8 @@ class UserService
             return DataReturn($ret, -1);
         }
 
+        Log::info("数据验证 通过");
+
         // 用户注册前校验钩子
         $hook_name = 'plugins_service_user_register_begin_check';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
@@ -1039,6 +1073,7 @@ class UserService
         {
             return $ret;
         }
+        Log::info("用户注册前校验钩子 通过");
 
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
@@ -1052,6 +1087,7 @@ class UserService
         {
             return $ret;
         }
+        Log::info("是否开启用户注册 通过");
 
         // 是否需要审核
         $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
@@ -1301,6 +1337,30 @@ class UserService
 
             // 用户名
             case 'username' :
+                $field = 'username|mobile|email';
+
+                // 帐号是否不存在
+                if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
+                {
+                     return DataReturn('登录帐号不存在', -3);
+                }
+                break;
+
+            // 用户名
+            case 'pi' :
+
+                 // if ($params['type'] == 'pi') {
+                    // 如果是Pi，创建一个账户
+                    Log::info("如果是Pi，创建一个账户");
+                    $regParams = ['accounts' => $params['piusername'],
+                                  'pwd' => $params['piusername'],
+                                  'type' => 'username',
+                                  'is_agree_agreement' => '1'];
+                    Log::info($regParams);
+                    self::Reg($regParams);
+                    Log::info("注册完成");
+                // }
+
                 $field = 'username|mobile|email';
 
                 // 帐号是否不存在
