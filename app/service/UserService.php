@@ -1349,17 +1349,18 @@ class UserService
             // 用户名
             case 'pi' :
 
-                 // if ($params['type'] == 'pi') {
-                    // 如果是Pi，创建一个账户
-                    Log::info("如果是Pi，创建一个账户");
-                    $regParams = ['accounts' => $params['piusername'],
+                if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
+                {
+                    Log::info("不存在该账户，创建一个账户");
+                    $regParams = ['accounts' => $params['accounts'],
                                   'pwd' => $params['piusername'],
                                   'type' => 'username',
                                   'is_agree_agreement' => '1'];
                     Log::info($regParams);
                     self::Reg($regParams);
                     Log::info("注册完成");
-                // }
+                }
+                    
 
                 $field = 'username|mobile|email';
 

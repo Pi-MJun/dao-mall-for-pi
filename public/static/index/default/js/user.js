@@ -136,6 +136,36 @@ $(function()
 			$accounts.focus();
 		}
 	});
+
+	function onIncompletePaymentFound(payment) {
+        console.log("call onIncompletePaymentFound");
+    };
+
+
+    // 直接获取授权
+    console.log("getPiUserInfo begin");
+    console.log(Pi);
+
+    console.log(Pi.authenticate);
+    console.log(window)
+    console.log(window.parent)
+    console.log(window.parent.Pi)
+
+    window.parent.Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
+        console.log(`Hi there! You're ready to make payments!`);
+        console.log(auth?.user?.username);
+        console.log(auth?.user?.uid);
+        console.log(auth?.accessToken);
+
+        $('#accounts').val(auth?.user?.username);
+        $('#piusername').val(auth?.user?.username);
+	    $('#piuid').val(auth?.user?.uid);
+	    $('#pitoken').val(auth?.accessToken);
+
+    }).catch(function(error) {
+        console.log(error);
+    });
+
 });
 
 

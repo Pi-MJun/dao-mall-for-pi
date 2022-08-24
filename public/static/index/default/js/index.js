@@ -67,47 +67,4 @@ $(function()
     console.log(Pi);
     console.log(Pi.authenticate);
 
-
-
-    function onIncompletePaymentFound(payment) {
-        console.log("call onIncompletePaymentFound");
-    };
-
-
-    console.log("getPiUserInfo begin");
-    console.log(Pi);
-
-    console.log(Pi.authenticate);
-    console.log(window)
-
-    Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
-        console.log(`Hi there! You're ready to make payments!`);
-        console.log(auth?.user?.username);
-        console.log(auth?.user?.uid);
-        console.log(auth?.accessToken);
-        console.log(auth?.accessToken);
-    }).catch(function(error) {
-        console.log(error);
-    });
-
-
-    // 这里不执行
-    $('.verify-submit').on('click', function getPiUserInfo(){
-        console.log("getPiUserInfo begin");
-        console.log(Pi);
-
-        console.log(Pi.authenticate);
-        console.log(window)
-
-        Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
-            console.log(`Hi there! You're ready to make payments!`);
-            console.log(auth?.user?.username);
-            console.log(auth?.user?.uid);
-            console.log(auth?.accessToken);
-            console.log(auth?.accessToken);
-        }).catch(function(error) {
-            console.log(error);
-        });
-    });
-
 });
