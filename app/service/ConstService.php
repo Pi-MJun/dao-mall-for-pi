@@ -190,6 +190,7 @@ class ConstService
                 'toutiao'   => ['value' => 'toutiao', 'name' => '头条小程序'],
                 'qq'        => ['value' => 'qq', 'name' => 'QQ小程序'],
                 'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程序'],
+                'pi'        => ['value' => 'pi', 'name' => 'Pi浏览器'],
             ],
 
             // app平台

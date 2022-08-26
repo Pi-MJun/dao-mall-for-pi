@@ -1,5 +1,89 @@
 $(function()
 {
+
+    // 访问服务器 Pi payment接口 
+    // http://localhost:9000/api.php?s=PaymentPi/approval
+    console.log("create axios:");
+    console.log(window.location.origin);
+    var instance = axios.create({
+        //baseURL: 'https://pime.app',
+        baseURL: window.location.origin,
+        timeout: 20000
+      });
+
+
+    function paymentApi_cancel (paymentId, metadata) {
+
+      return new Promise((resolve, reject) => {
+        instance.post( '/api.php?s=PaymentPi/cancel',
+        {
+          ...metadata, 
+          ...{
+            paymentId : paymentId
+          }
+        })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      })
+
+    }
+
+    function paymentApi_approval (paymentId, metadata) {
+
+      var that = this;
+      return instance.post( '/api.php?s=PaymentPi/approval',
+      {
+          ...metadata, 
+          ...{
+            paymentId : paymentId
+          }
+      })
+      .then(function (response) {
+        console.log(response)
+        console.log('approvalSendPi ok')
+      })
+      .catch(function (error) {
+        console.log(error)
+        console.log('approvalSendPi error')
+        paymentApi_cancel(paymentId, metadata);
+      })
+    }
+
+    function paymentApi_complete (paymentId, txid, metadata) {
+      return instance.post( '/api.php?s=PaymentPi/complete',
+      {
+        ...metadata, 
+        ...{
+          paymentId : paymentId,
+          txid : txid
+        }
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    }
+
+    function paymentApi_incomplete (payment) {
+      return instance.post( '/api.php?s=PaymentPi/incomplete',
+      {
+        payment
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    }
+
+
     // 支付窗口
     var $pay_popup = $('#order-pay-popup');
 
@@ -24,8 +108,58 @@ $(function()
     // 支付操作
     $('.submit-pay').on('click', function()
     {
-        PayPopupParamsInit($(this).data('id'), $(this).data('payment-id'));
-        $pay_popup.modal();
+        // comment by jiakuant 
+        // here , raise a pay
+        // PayPopupParamsInit($(this).data('id'), $(this).data('payment-id'));
+        // $pay_popup.modal();
+
+        console.log('begin payment');
+        console.log($(this).data('id'));
+        console.log($(this).data('payment-id'));
+        console.log(window)
+        console.log(window.Pi)
+
+        // PiSDK.sendPi({
+        //   pid: projectId, 
+        //   uid: this.auth?.user?.uid,
+        //   amount: 3.14,
+        //   memo: "for test"
+        // })
+
+
+        Pi.createPayment({
+            // Amount of π to be paid:
+            amount: 3.14,
+            // An explanation of the payment - will be shown to the user:
+            memo: "test", // e.g: "Digital kitten #1234",
+            // An arbitrary developer-provided metadata object - for your own usage:
+            metadata: { id: $(this).data('id') } // e.g: { kittenId: 1234 }
+            // to_address: to_address,
+          }, {
+            // Callbacks you need to implement - read more about those in the detailed docs linked below:
+            onReadyForServerApproval: function(paymentId) {
+              console.log('onReadyForServerApproval:' + paymentId);
+              paymentApi_approval(paymentId, { id: $(this).data('id') })
+            },
+            onReadyForServerCompletion: function(paymentId, txid) {
+              console.log('onReadyForServerCompletion:' + paymentId + ',' + txid);
+              paymentApi_complete(paymentId, txid, metadata);
+
+              // payment process compelted
+            },
+            onCancel: function(paymentId) {
+              console.log('onCancel:' + paymentId);
+              paymentApi_cancel(paymentId, metadata);
+            },
+            onError: function(error, payment) {
+              console.log('onError:' + error + ',' + payment);
+              if (payment) {
+                console.log(payment);
+              }
+            },
+        });
+
+
     });
 
     // 混合列表选择
@@ -117,4 +251,56 @@ $(function()
         PayPopupParamsInit(values, payment_id);
         $pay_popup.modal();
     });
+});
+
+
+$(function()
+{
+    console.log("Pi.init begin");
+
+    console.log(window)
+
+    console.log(navigator.userAgent)
+
+    console.log(window.location.origin);
+
+    if (window.location.origin == 'https://localhost:4430') {
+      console.log("Pi.init with sandbox to true")
+      Pi.init({ version: "2.0", sandbox: true});
+    }else{
+      console.log("Pi.init with sandbox to false")
+      Pi.init({ version: "2.0"});
+    }
+
+    //Pi.init({ version: "2.0"});
+
+
+    console.log("Pi.init end");
+    console.log(Pi);
+    console.log(Pi.authenticate);
+
+
+    function onIncompletePaymentFound(payment) {
+        console.log("call onIncompletePaymentFound");
+    };
+
+
+    // 直接获取授权
+    console.log("getPiUserInfo begin");
+    console.log(Pi);
+
+    console.log(Pi.authenticate);
+    console.log(window)
+
+    Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
+        console.log(`Hi there! You're ready to make payments!`);
+        console.log(auth?.user?.username);
+        console.log(auth?.user?.uid);
+        console.log(auth?.accessToken);
+
+    }).catch(function(error) {
+        console.log(error);
+    });
+
+
 });

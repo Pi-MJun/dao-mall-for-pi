@@ -24,6 +24,7 @@ use app\service\OrderAftersaleService;
 use app\service\OrderCurrencyService;
 use app\service\WarehouseService;
 use app\service\SystemService;
+use think\facade\Log;
 
 /**
  * 订单服务层
@@ -48,6 +49,10 @@ class OrderService
      */
     public static function Pay($params = [])
     {
+        Log::info("订单支付：");
+        Log::info($params);
+
+
         // 请求参数
         $p = [
             [
@@ -61,13 +66,18 @@ class OrderService
         {
             return DataReturn($ret, -1);
         }
+        Log::info("参数检查 通过");
 
+
+        Log::info("获取订单Ids：");
         // 支付订单id
         $ids = is_array($params['ids']) ? $params['ids'] : explode(',', urldecode($params['ids']));
         if(empty($ids))
         {
             return DataReturn('订单支付id有误', -1);
         }
+        Log::info($ids);
+
 
         // 支付基础信息
         $order_payment_id = 0;
@@ -75,17 +85,21 @@ class OrderService
         $order_ids = [];
         $order_nos = [];
 
+        Log::info("开始循环处理Ids：");
         // 循环处理
         $order_data = [];
         foreach($ids as $k=>$order_id)
         {
             // 获取订单信息
+
+            Log::info("获取订单信息");
             $where = ['id'=>intval($order_id)];
             $order = Db::name('Order')->where($where)->find();
             if(empty($order))
             {
                 return DataReturn('订单不存在或已被删除', -1);
             }
+            Log::info("获取订单状态");
             $operate = self::OrderOperateData($order, 'user');
             if($operate['is_pay'] != 1)
             {
@@ -93,12 +107,14 @@ class OrderService
                 return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
+            Log::info("获取订单用户信息");
             // 订单用户
             $order['user'] = UserService::UserHandle(UserService::UserInfo('id', $order['user_id']));
             if(empty($order['user']))
             {
                 return DataReturn('订单用户无效['.$order_id.']', -1);
             }
+            Log::info($order['user']);
 
             // 订单数据集合
             $order_data[] = $order;
@@ -112,7 +128,14 @@ class OrderService
                 $order_payment_id = $order['payment_id'];
             }
         }
+        Log::info("结束了，循环处理Ids：");
+        Log::info($order_data);
+        Log::info($order_ids);
+        Log::info($order_nos);
+        Log::info($client_type);
 
+
+        Log::info("订单支付前校验订单商品：");
         // 订单支付前校验订单商品
         $ret = BuyService::MoreOrderPayBeginCheck(['order_data'=>$order_data]);
         if($ret['code'] != 0)
@@ -120,6 +143,7 @@ class OrderService
             return $ret;
         }
 
+        Log::info("金额为0、走直接支付成功");
         // 金额为0、走直接支付成功
         $total_price = 0;
         $success_count = 0;
@@ -145,12 +169,14 @@ class OrderService
             $total_price += $order['total_price'];
         }
 
+        Log::info("是否直接跳转");
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
             return DataReturn('操作成功', 0, ['is_success'=>1]);
         }
 
+        Log::info("订单金额大于0则必须存在支付方式");
         // 订单金额大于0则必须存在支付方式
         // 支付方式、未指定支付方式则获取第一个订单的支付方式
         $payment = [];
@@ -163,7 +189,12 @@ class OrderService
         {
             return DataReturn('支付方式有误', -1);
         }
+        Log::info("获取支付方式 成功");
+        Log::info($payment);
 
+
+
+        Log::info("更新订单支付方式信息");
         // 更新订单支付方式信息
         if($payment['id'] != $order_payment_id)
         {
@@ -174,6 +205,7 @@ class OrderService
             ]);
         }
 
+        Log::info("支付入口文件检查");
         // 支付入口文件检查
         $pay_checked = PaymentService::EntranceFileChecked($payment['payment'], 'order');
         if($pay_checked['code'] != 0)
@@ -190,6 +222,8 @@ class OrderService
                 return $ret;
             }
         }
+
+        Log::info($pay_checked);
 
         // 回调地址
         $respond_url = $pay_checked['data']['respond'];
@@ -210,6 +244,8 @@ class OrderService
             $redirect_url = MyUrl('index/order/index');
         }
 
+
+        Log::info("获取当前用户");
         // 当前用户
         $current_user = empty($params['user']) ? UserService::LoginUserInfo() : $params['user'];
         if(!empty($current_user))
@@ -241,6 +277,7 @@ class OrderService
             return $ret;
         }
 
+        Log::info("新增支付日志");
         // 新增支付日志
         $pay_log = self::OrderPayLogInsert([
             'user_id'       => $current_user['id'],
@@ -255,6 +292,7 @@ class OrderService
             return $pay_log;
         }
 
+        Log::info("发起支付数据");
         // 发起支付数据
         $pay_data = [
             'params'        => $params,
@@ -289,6 +327,7 @@ class OrderService
             return $ret;
         }
 
+        // Log::info($pay_data);
         // 微信中打开并且webopenid为空
         if(APPLICATION_CLIENT_TYPE == 'pc' && IsWeixinEnv() && empty($pay_data['user']['weixin_web_openid']))
         {
@@ -311,8 +350,14 @@ class OrderService
             MySession('plugins_weixinwebauth_pay_callback_view_url', $url);
         }
 
+        Log::info("发起支付");
         // 发起支付
+        // ！！！ 这里有个支付方式的接口 Pay
         $pay_name = 'payment\\'.$payment['payment'];
+
+        Log::info($pay_name);
+        Log::info($payment['config']);
+
         $ret = (new $pay_name($payment['config']))->Pay($pay_data);
         if(isset($ret['code']) && $ret['code'] == 0)
         {

@@ -38,7 +38,7 @@ $store_http = (MyFileConfig('common_is_https_connect_store') == 1) ? 'https://' 
 // 配置信息
 return [
     // 开发模式
-    'is_develop'                            => true,
+    'is_develop'                            => false,
 
     // 默认编码
     'default_charset'                       => 'utf-8',
@@ -173,10 +173,15 @@ return [
     // 代码（默认 0.0000）
     // 汇率（默认 RMB）
     // 名称（默认 人民币）
-    'currency_symbol'                       => '￥',
-    'currency_code'                         => 'RMB',
+    // 'currency_symbol'                       => '￥',
+    // 'currency_code'                         => 'RMB',
+    // 'currency_rate'                         => 0.0000,
+    // 'currency_name'                         => '人民币',
+
+    'currency_symbol'                       => 'π',
+    'currency_code'                         => 'PI',
     'currency_rate'                         => 0.0000,
-    'currency_name'                         => '人民币',
+    'currency_name'                         => '派',
 
     // 验证码最大验证次数,防止暴力破解
     'security_prevent_violence_max'         => 6,

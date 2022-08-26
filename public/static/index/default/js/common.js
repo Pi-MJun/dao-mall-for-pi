@@ -247,5 +247,88 @@ $(function()
     {
       FromInit('form.form-validation-user-avatar');
     }
-    
+
+
+    // // 访问服务器 Pi payment接口 
+    // // http://localhost:9000/api.php?s=PaymentPi/approval
+    // console.log(window.location.origin);
+    // var instance = axios.create({
+    //     //baseURL: 'https://pime.app',
+    //     baseURL: window.location.origin,
+    //     timeout: 20000
+    //   });
+
+
+    // function paymentApi_cancel (paymentId, metadata) {
+
+    //   return new Promise((resolve, reject) => {
+    //     instance.post( '/api.php?s=PaymentPi/cancel',
+    //     {
+    //       ...metadata, 
+    //       ...{
+    //         paymentId : paymentId
+    //       }
+    //     })
+    //     .then(function (response) {
+    //       console.log(response)
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error)
+    //     })
+    //   })
+
+    // }
+
+    // function paymentApi_approval (paymentId, metadata) {
+
+    //   var that = this;
+    //   return instance.post( '/api.php?s=PaymentPi/approval',
+    //   {
+    //       ...metadata, 
+    //       ...{
+    //         paymentId : paymentId
+    //       }
+    //   })
+    //   .then(function (response) {
+    //     console.log(response)
+    //     console.log('approvalSendPi ok')
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //     console.log('approvalSendPi error')
+    //     that.cancel(paymentId);
+    //   })
+    // }
+
+    // function paymentApi_complete (paymentId, txid, metadata) {
+    //   return instance.post( '/api.php?s=PaymentPi/complete',
+    //   {
+    //     ...metadata, 
+    //     ...{
+    //       paymentId : paymentId,
+    //       txid : txid
+    //     }
+    //   })
+    //   .then(function (response) {
+    //     console.log(response)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   })
+    // }
+
+    // function paymentApi_incomplete (payment) {
+    //   return instance.post( '/api.php?s=PaymentPi/incomplete',
+    //   {
+    //     payment
+    //   })
+    //   .then(function (response) {
+    //     console.log(response)
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   })
+    // }
+
+
 });

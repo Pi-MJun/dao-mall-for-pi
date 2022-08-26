@@ -14,6 +14,7 @@ use think\facade\Db;
 use app\service\SystemService;
 use app\service\ResourcesService;
 use app\service\StoreService;
+use think\facade\Log;
 
 /**
  * 支付方式服务层
@@ -70,6 +71,9 @@ class PaymentService
      */
     public static function PluginsPaymentList()
     {
+
+        Log::info("获取支付插件列表");
+
         // 初始化
         self::Init();
 
@@ -80,20 +84,29 @@ class PaymentService
             if($dh = opendir(self::$payment_dir))
             {
                 $common_platform_type = MyConst('common_platform_type');
+                Log::info("进入循环 ");
                 while(($temp_file = readdir($dh)) !== false)
                 {
+
+                    Log::info($temp_file);
+
                     if(substr($temp_file, 0, 1) != '.')
                     {
+
+                        Log::info("1 ");
+
                         // 获取模块配置信息
                         $payment = htmlentities(str_replace('.php', '', $temp_file));
                         $config = self::GetPaymentConfig($payment);
                         if($config !== false)
                         {
+                            Log::info("2 ");
                             // 数据组装
                             $temp = self::DataAnalysis($config);
                             $temp['id'] = date('YmdHis').GetNumberCode(8);
                             $temp['payment'] = $payment;
 
+                            Log::info("3 ");
                             // 获取数据库配置信息
                             $db_config = self::PaymentList(['where'=>['payment'=>$payment]]);
                             if(!empty($db_config[0]))
@@ -121,14 +134,17 @@ class PaymentService
                                 $temp['apply_terminal_names'] = $apply_terminal_names;
                                 $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
                             }
+                            Log::info($temp);
                             $data[] = $temp;
                         }
                     }
                 }
+                Log::info("退出循环 ");
                 closedir($dh);
             }
         }
 
+        Log::info("所有支付方式列表钩子");
         // 所有支付方式列表钩子
         $hook_name = 'plugins_service_payment_all_list';
         MyEventTrigger($hook_name, [
@@ -279,7 +295,12 @@ class PaymentService
      */
     public static function BuyPaymentList($params = [])
     {
+        Log::info("获取支付方式列表:");
+        Log::info(APPLICATION_CLIENT_TYPE);
+
         $res = self::PaymentList($params);
+        // Log::info($res);
+
         $data = [];
         if(!empty($res))
         {

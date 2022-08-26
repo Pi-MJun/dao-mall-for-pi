@@ -1233,7 +1233,9 @@ class BuyService
             // 提交成功,进入合并支付
             case 1 :
                 $msg = '提交成功';
-                $result['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
+                // comment by jiakuant
+                // dont auto derect to page of pay 
+                // $result['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
                 break;
 
             // 默认操作成功
