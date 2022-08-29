@@ -26,11 +26,11 @@ use think\facade\Log;
 class PaymentPi extends Common
 {
 
-    public static apiKey = 'z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw';
+    // public static apiKey = 'z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw';
     // axios.defaults.headers.common['Authorization'] = 'Key ' + apiKey
 
-    public static axiosClient = axios.create({baseURL:'https://api.minepi.com', timeout:60000});
-    public static config = {headers: {'Authorization' : `Key ${this.apiKey}`, 'Access-Control-Allow-Origin':'*'}};
+    // public static axiosClient = axios.create({baseURL:'https://api.minepi.com', timeout:60000});
+    // public static config = {headers: {'Authorization' : `Key ${this.apiKey}`, 'Access-Control-Allow-Origin':'*'}};
 
     /**
      * [__construct 构造方法]
@@ -56,7 +56,64 @@ class PaymentPi extends Common
     public function approval()
     {
         Log::info("api/PaymentPi approval");
-        return ApiService::ApiDataReturn(DataReturn('ok', 200));
+
+        $params = $this->data_request;
+        Log::info($params);
+        Log::info($params['id']);
+        Log::info($params['paymentId']);
+
+        $data  = array();
+        // $data=json_encode($data);
+        $Url = "https://api.minepi.com/v2/payments/".$params['paymentId']."/approve";
+        // $Url = "https://api.minepi.com/v2/payments/";
+        $header=array(
+            "Accept: */*",
+            "Accept-Encoding: *",
+            "Content-Type: application/json",
+            // "Content-Length: ".strlen($data),
+            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Access-Control-Allow-Origin: *"
+            );//Header参数
+
+        Log::info("params:");
+        Log::info($Url);
+        Log::info($header);
+        Log::info($data);
+
+        $curl = curl_init();//初始化
+
+
+        curl_setopt($curl, CURLOPT_URL, $Url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 0);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+
+        // 本地调试开启代理
+        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+
+
+        $data = curl_exec($curl);//返回参数
+
+        if($errno = curl_errno($curl)) {
+            Log::info("err:");
+            Log::info($errno);
+            $error_message = curl_strerror($errno);
+            Log::info($error_message);
+
+            curl_close($curl);
+            return ApiService::ApiDataReturn(DataReturn($error_message, 500));
+        }
+
+        curl_close($curl);
+        Log::info("ret:");
+        Log::info($data);
+        return ApiService::ApiDataReturn(DataReturn($data, 200));
     }
 
     /**
@@ -70,7 +127,66 @@ class PaymentPi extends Common
     public function complete()
     {
         Log::info("api/PaymentPi complete");
-        return ApiService::ApiDataReturn(DataReturn('ok', 200));
+        Log::info($this);
+
+        $params = $this->data_request;
+        Log::info($params);
+        Log::info($params['paymentId']);
+        Log::info($params['txid']);
+        Log::info($params['id']);
+
+
+        $data=json_encode(array('txid'=> $params['txid']));
+
+        $Url = "https://api.minepi.com/v2/payments/".$params['paymentId']."/complete";
+        $header=array(
+            "Accept: */*",
+            "Content-Type: application/json",
+            // "Content-Length: ".strlen($data),
+            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Access-Control-Allow-Origin: *"
+            );//Header参数
+
+        Log::info("params:");
+        Log::info($Url);
+        Log::info($header);
+        Log::info($data);
+
+
+        $curl = curl_init();//初始化
+        
+        curl_setopt($curl, CURLOPT_URL, $Url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+
+        // 本地调试开启代理
+        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+
+
+
+        $data = curl_exec($curl);//返回参数
+
+        if($errno = curl_errno($curl)) {
+            Log::info("err:");
+            Log::info($errno);
+            $error_message = curl_strerror($errno);
+            Log::info($error_message);
+
+            curl_close($curl);
+            return ApiService::ApiDataReturn(DataReturn($error_message, 500));
+        }
+
+        curl_close($curl);
+        Log::info("ret:");
+        Log::info($data);
+        return ApiService::ApiDataReturn(DataReturn($data, 200));
     }
 
     /**
@@ -98,7 +214,66 @@ class PaymentPi extends Common
     public function incomplete()
     {
         Log::info("api/PaymentPi incomplete");
-        return ApiService::ApiDataReturn(DataReturn('ok', 200));
+        
+        $params = $this->data_request;
+        Log::info($params);
+        Log::info($params['paymentId']);
+        Log::info($params['txid']);
+        Log::info($params['id']);
+
+
+        $data=json_encode(array('txid'=> $params['txid']));
+
+        $Url = "https://api.minepi.com/v2/payments/".$params['paymentId']."/complete";
+        $header=array(
+            "Accept: */*",
+            "Content-Type: application/json",
+            // "Content-Length: ".strlen($data),
+            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Access-Control-Allow-Origin: *"
+            );//Header参数
+
+        Log::info("params:");
+        Log::info($Url);
+        Log::info($header);
+        Log::info($data);
+
+
+        $curl = curl_init();//初始化
+        
+        curl_setopt($curl, CURLOPT_URL, $Url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+
+        // 本地调试开启代理
+        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+
+
+
+        $data = curl_exec($curl);//返回参数
+
+        if($errno = curl_errno($curl)) {
+            Log::info("err:");
+            Log::info($errno);
+            $error_message = curl_strerror($errno);
+            Log::info($error_message);
+
+            curl_close($curl);
+            return ApiService::ApiDataReturn(DataReturn($error_message, 500));
+        }
+
+        curl_close($curl);
+        Log::info("ret:");
+        Log::info($data);
+        return ApiService::ApiDataReturn(DataReturn($data, 200));
+
     }
 
     

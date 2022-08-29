@@ -8,13 +8,13 @@ $(function()
     var instance = axios.create({
         //baseURL: 'https://pime.app',
         baseURL: window.location.origin,
-        timeout: 20000
+        timeout: 60000
       });
 
 
     function paymentApi_cancel (paymentId, metadata) {
-
-      return new Promise((resolve, reject) => {
+        console.log("call paymentApi_cancel");
+        return new Promise((resolve, reject) => {
         instance.post( '/api.php?s=PaymentPi/cancel',
         {
           ...metadata, 
@@ -28,59 +28,63 @@ $(function()
         .catch(function (error) {
           console.log(error)
         })
-      })
+        })
 
     }
 
     function paymentApi_approval (paymentId, metadata) {
 
-      var that = this;
-      return instance.post( '/api.php?s=PaymentPi/approval',
-      {
+        console.log("call paymentApi_approval");
+        var that = this;
+        return instance.post( '/api.php?s=PaymentPi/approval',
+        {
           ...metadata, 
           ...{
             paymentId : paymentId
           }
-      })
-      .then(function (response) {
+        })
+        .then(function (response) {
         console.log(response)
         console.log('approvalSendPi ok')
-      })
-      .catch(function (error) {
+        })
+        .catch(function (error) {
         console.log(error)
         console.log('approvalSendPi error')
         paymentApi_cancel(paymentId, metadata);
-      })
+        })
     }
 
     function paymentApi_complete (paymentId, txid, metadata) {
-      return instance.post( '/api.php?s=PaymentPi/complete',
-      {
+
+        console.log("call paymentApi_complete");
+        return instance.post( '/api.php?s=PaymentPi/complete',
+        {
         ...metadata, 
         ...{
           paymentId : paymentId,
           txid : txid
         }
-      })
-      .then(function (response) {
+        })
+        .then(function (response) {
         console.log(response)
-      })
-      .catch(function (error) {
+        })
+        .catch(function (error) {
         console.log(error)
-      })
+        })
     }
 
     function paymentApi_incomplete (payment) {
-      return instance.post( '/api.php?s=PaymentPi/incomplete',
-      {
+        console.log("call paymentApi_incomplete");
+        return instance.post( '/api.php?s=PaymentPi/incomplete',
+        {
         payment
-      })
-      .then(function (response) {
+        })
+        .then(function (response) {
         console.log(response)
-      })
-      .catch(function (error) {
+        })
+        .catch(function (error) {
         console.log(error)
-      })
+        })
     }
 
 
@@ -126,6 +130,11 @@ $(function()
         //   memo: "for test"
         // })
 
+        var metadata = 
+        {
+            id: $(this).data('id'),
+            // payment-id: $(this).data('payment-id'),
+        };
 
         Pi.createPayment({
             // Amount of π to be paid:
@@ -133,13 +142,13 @@ $(function()
             // An explanation of the payment - will be shown to the user:
             memo: "test", // e.g: "Digital kitten #1234",
             // An arbitrary developer-provided metadata object - for your own usage:
-            metadata: { id: $(this).data('id') } // e.g: { kittenId: 1234 }
+            metadata // e.g: { kittenId: 1234 }
             // to_address: to_address,
           }, {
             // Callbacks you need to implement - read more about those in the detailed docs linked below:
             onReadyForServerApproval: function(paymentId) {
               console.log('onReadyForServerApproval:' + paymentId);
-              paymentApi_approval(paymentId, { id: $(this).data('id') })
+              paymentApi_approval(paymentId, metadata)
             },
             onReadyForServerCompletion: function(paymentId, txid) {
               console.log('onReadyForServerCompletion:' + paymentId + ',' + txid);
@@ -156,7 +165,7 @@ $(function()
               if (payment) {
                 console.log(payment);
               }
-            },
+            }
         });
 
 
@@ -251,11 +260,10 @@ $(function()
         PayPopupParamsInit(values, payment_id);
         $pay_popup.modal();
     });
-});
 
 
-$(function()
-{
+
+
     console.log("Pi.init begin");
 
     console.log(window)
@@ -282,6 +290,9 @@ $(function()
 
     function onIncompletePaymentFound(payment) {
         console.log("call onIncompletePaymentFound");
+        console.log(payment);
+        paymentApi_complete(payment.identifier, payment.transaction.txid, payment.metadata);
+
     };
 
 
@@ -304,3 +315,11 @@ $(function()
 
 
 });
+
+
+// $(function()
+// {
+    
+
+
+// });
