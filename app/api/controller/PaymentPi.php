@@ -60,7 +60,15 @@ class PaymentPi extends Common
         $params = $this->data_request;
         Log::info($params);
         Log::info($params['id']);
+        Log::info($params['price']);
         Log::info($params['paymentId']);
+
+        //order id
+        $orderid = $params['id'];
+        $price = $params['price'];
+        Log::info($orderid);
+        Log::info($price);
+
 
         $data  = array();
         // $data=json_encode($data);
@@ -170,7 +178,6 @@ class PaymentPi extends Common
         curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 
 
-
         $data = curl_exec($curl);//返回参数
 
         if($errno = curl_errno($curl)) {
@@ -186,6 +193,12 @@ class PaymentPi extends Common
         curl_close($curl);
         Log::info("ret:");
         Log::info($data);
+
+        // Log::info("call OrderService::Notify:");
+        // $notifyRet = OrderService::Notify();
+        // Log::info("notifyRet:");
+        // Log::info($notifyRet);
+
         return ApiService::ApiDataReturn(DataReturn($data, 200));
     }
 

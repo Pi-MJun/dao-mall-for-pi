@@ -1,0 +1,259 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main data-container" 
+data-orderid="{{$module_data.order_id}}" 
+data-orderno="{{$module_data.order_no}}"  
+data-price="{{$module_data.data.total_price}}">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <h3>开始Pi支付</h3>
+    
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+
+<script type="text/javascript">
+	
+$(function()
+{
+
+	console.log("pi_pay.html")
+	console.log($(".data-container").data());
+	global_data = $(".data-container").data();
+
+    // 访问服务器 Pi payment接口 
+    // http://localhost:9000/api.php?s=PaymentPi/approval
+    console.log("create axios:");
+    console.log(window.location.origin);
+    var instance = axios.create({
+        //baseURL: 'https://pime.app',
+        baseURL: window.location.origin,
+        timeout: 60000
+      });
+
+
+    function paymentApi_cancel (paymentId, metadata) {
+        console.log("call paymentApi_cancel");
+        return new Promise((resolve, reject) => {
+        instance.post( '/api.php?s=PaymentPi/cancel',
+        {
+          ...metadata, 
+          ...{
+            paymentId : paymentId
+          }
+        })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+        })
+
+    }
+
+    function paymentApi_approval (paymentId, metadata) {
+
+        console.log("call paymentApi_approval");
+        var that = this;
+        return instance.post( '/api.php?s=PaymentPi/approval',
+        {
+          ...metadata, 
+          ...{
+            paymentId : paymentId
+          }
+        })
+        .then(function (response) {
+        console.log(response)
+        console.log('approvalSendPi ok')
+        })
+        .catch(function (error) {
+        console.log(error)
+        console.log('approvalSendPi error')
+        paymentApi_cancel(paymentId, metadata);
+        })
+    }
+
+    function paymentApi_complete (paymentId, txid, metadata) {
+
+        console.log("call paymentApi_complete");
+        return instance.post( '/api.php?s=PaymentPi/complete',
+        {
+        ...metadata, 
+        ...{
+          paymentId : paymentId,
+          txid : txid
+        }
+        })
+        .then(function (response) {
+        console.log(response)
+        })
+        .catch(function (error) {
+        console.log(error)
+        })
+    }
+
+    function paymentApi_incomplete (payment) {
+        console.log("call paymentApi_incomplete");
+        return instance.post( '/api.php?s=PaymentPi/incomplete',
+        {
+        payment
+        })
+        .then(function (response) {
+        console.log(response)
+        })
+        .catch(function (error) {
+        console.log(error)
+        })
+    }
+
+
+    function paymentApi_notify (orderno, price, user) {
+        console.log("call paymentApi_notify");
+        return instance.post( '/api.php?s=ordernotify/notify',
+        {
+            'out_trade_no': orderno,
+            'pay_price': price,
+            'buyer_user': user,
+            'trade_no': orderno, // 先随便填一个
+            'subject': "pidao order id:" + orderno
+        })
+        .then(function (response) {
+            console.log(response)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+    }
+
+
+    console.log("Pi.init begin");
+
+    console.log(window)
+
+    console.log(navigator.userAgent)
+
+    console.log(window.location.origin);
+
+    if (window.location.origin == 'https://localhost:4430') {
+      console.log("Pi.init with sandbox to true")
+      Pi.init({ version: "2.0", sandbox: true});
+    }else{
+      console.log("Pi.init with sandbox to false")
+      Pi.init({ version: "2.0"});
+    }
+
+    console.log("Pi.init end");
+    console.log(Pi);
+    console.log(Pi.authenticate);
+
+
+    function onIncompletePaymentFound(payment) {
+        console.log("call onIncompletePaymentFound");
+        console.log(payment);
+        paymentApi_complete(payment.identifier, payment.transaction.txid, payment.metadata);
+    };
+
+    // 直接获取授权
+    console.log("getPiUserInfo begin");
+    console.log(Pi);
+
+    console.log(Pi.authenticate);
+    console.log(window)
+
+
+    var that = this;
+
+    Pi.authenticate(['username', 'payments'], onIncompletePaymentFound).then(function(auth) {
+        console.log(`Hi there! You're ready to make payments!`);
+        console.log(auth?.user?.username);
+        console.log(auth?.user?.uid);
+        console.log(auth?.accessToken);
+
+        console.log('begin payment');
+	    console.log(global_data.orderno);
+	    console.log(global_data.price);
+	    // console.log($(that).data('payment-id'));
+	    console.log(window)
+	    console.log(window.Pi)
+
+
+
+
+
+	    var metadata = 
+	    {
+	        id: global_data.orderno,
+	        price: global_data.price
+	        // payment-id: $(that).data('payment-id'),
+	    };
+
+
+
+	    Pi.createPayment({
+	        // Amount of π to be paid:
+	        amount: global_data.price,
+	        // An explanation of the payment - will be shown to the user:
+	        memo: "pidao order id:" + global_data.orderno, // e.g: "Digital kitten #1234",
+	        // An arbitrary developer-provided metadata object - for your own usage:
+	        metadata // e.g: { kittenId: 1234 }
+	        // to_address: to_address,
+	      }, {
+	        // Callbacks you need to implement - read more about those in the detailed docs linked below:
+	        onReadyForServerApproval: function(paymentId) {
+	          console.log('onReadyForServerApproval:' + paymentId);
+	          paymentApi_approval(paymentId, metadata)
+	        },
+	        onReadyForServerCompletion: function(paymentId, txid) {
+	            console.log('onReadyForServerCompletion:' + paymentId + ',' + txid);
+	            paymentApi_complete(paymentId, txid, metadata)
+                .then(function(){
+                    paymentApi_notify(global_data.orderno, global_data.price, auth?.user?.username)
+                    .then(function(){
+                        window.location.replace(window.location.origin + "/?s=order/index.html");
+                    })
+                })
+
+	        },
+	        onCancel: function(paymentId) {
+	          console.log('onCancel:' + paymentId);
+	          paymentApi_cancel(paymentId, metadata);
+	        },
+	        onError: function(error, payment) {
+	          console.log('onError:' + error + ',' + payment);
+	          if (payment) {
+	            console.log(payment);
+	          }
+	        }
+	    });
+
+    }).catch(function(error) {
+        console.log(error);
+    });
+
+
+    
+
+});
+
+</script>

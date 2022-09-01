@@ -17,6 +17,7 @@ use app\service\OrderService;
 use app\service\GoodsCommentsService;
 use app\service\ConfigService;
 use app\service\ResourcesService;
+use think\facade\Log;
 
 /**
  * 我的订单
@@ -101,6 +102,7 @@ class Order extends Common
      */
     public function Detail()
     {
+        Log::info("Order Api Detail:");
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;

@@ -16,6 +16,7 @@ use app\service\GoodsCommentsService;
 use app\service\ConfigService;
 use app\service\SeoService;
 use app\service\ResourcesService;
+use think\facade\Log;
 
 /**
  * 订单管理
@@ -91,6 +92,8 @@ class Order extends Common
         MyViewAssign('data_list', $ret['data']);
         MyViewAssign('pay_params', $pay_params);
         MyViewAssign('params', $this->data_request);
+
+        // Log::info($ret['data']);
         return MyView();
     }
 
@@ -230,23 +233,60 @@ class Order extends Common
      */
     public function Pay()
     {
+        Log::info("index control Order.Pay:");
         $params = $this->data_request;
         $params['user'] = $this->user;
         $ret = OrderService::Pay($params);
+
+        Log::info("OrderService::Pay return:");
+        Log::info($ret);
         if($ret['code'] == 0)
         {
             // 是否直接成功、则直接进入提示页面并指定支付状态
             if(isset($ret['data']['is_success']) && $ret['data']['is_success'] == 1)
             {
+                Log::info("MyRedirect to:");
+                Log::info("MyRedirect to: index/order/respond");
                 return MyRedirect(MyUrl('index/order/respond', ['appoint_status'=>0]));
             } else {
-                return MyRedirect($ret['data']['data']);
+
+                Log::info("MyRedirect to:");
+                // Log::info($ret['data']['data']);
+                // return MyRedirect($ret['data']['data']);
+                Log::info($ret['data']);
+                // return MyRedirect(MyUrl('index/order/PiPay'), ['tttttt' => 22]);
+
+                MyViewAssign('module_data', $ret['data']);
+                return MyView('\order\pi_pay');
+                // site/public/goods_search
             }
         } else {
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');
         }
     }
+
+
+
+    // /**
+    //  * Pi 支付页面
+    //  * @author   Devil
+    //  * @blog    http://gong.gg/
+    //  * @version 1.0.0
+    //  * @date    2018-09-28
+    //  * @desc    description
+    //  */
+    // public function PiPay()
+    // {
+    //     Log::info("index control Order.PiPay:");
+    //     Log::info($this);
+    //     $params = $this->data_request;
+    //     Log::info($params);
+
+    //     MyViewAssign('data', $params);
+    //     return MyView();
+    // }
+
 
     /**
      * 支付同步返回处理
@@ -258,8 +298,12 @@ class Order extends Common
      */
     public function Respond()
     {
+
+        Log::info("control Order.Respond:");
+
         // 参数
         $params = $this->data_request;
+        Log::info($params);
 
         // 是否自定义状态
         if(isset($params['appoint_status']))
@@ -269,7 +313,12 @@ class Order extends Common
             // 获取支付回调数据
         } else {
             $params['user'] = $this->user;
+
+            Log::info("call OrderService::Respond");
+            Log::info($params);
             $ret = OrderService::Respond($params);
+            Log::info("$ret:");
+            Log::info($ret);
         }
 
         // 自定义链接

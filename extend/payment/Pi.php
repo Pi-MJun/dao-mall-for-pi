@@ -133,6 +133,9 @@ class Pi
         }
         Log::info($ret);
 
+        return DataReturn('success', 0, $params);
+
+
         // QQ小程序使用微信支付
         // if($client_type == 'qq')
         // {
@@ -152,17 +155,17 @@ class Pi
         // }
 
         // 请求接口处理
-        $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($ret['data'])));
-        if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
-        {
-            return $this->PayHandleReturn($ret['data'], $result, $params);
-        }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '支付接口异常' : $result['return_msg']);
-        if(!empty($result['err_code_des']))
-        {
-            $msg .= '-'.$result['err_code_des'];
-        }
-        return DataReturn($msg, -1);
+        // $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($ret['data'])));
+        // if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
+        // {
+        //     return $this->PayHandleReturn($ret['data'], $result, $params);
+        // }
+        // $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '支付接口异常' : $result['return_msg']);
+        // if(!empty($result['err_code_des']))
+        // {
+        //     $msg .= '-'.$result['err_code_des'];
+        // }
+        // return DataReturn($msg, -1);
     }
 
     /**
@@ -501,13 +504,16 @@ class Pi
      */
     public function Respond($params = [])
     {
-        $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
 
-        if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
-        {
-            return DataReturn('支付成功', 0, $this->ReturnData($result));
-        }
-        return DataReturn('处理异常错误', -100);
+        return DataReturn('支付成功', 0, $params);
+        
+        // $result = empty($GLOBALS['HTTP_RAW_POST_DATA']) ? $this->XmlToArray(file_get_contents('php://input')) : $this->XmlToArray($GLOBALS['HTTP_RAW_POST_DATA']);
+
+        // if(isset($result['result_code']) && $result['result_code'] == 'SUCCESS' && $result['sign'] == $this->GetSign($result))
+        // {
+        //     return DataReturn('支付成功', 0, $this->ReturnData($result));
+        // }
+        // return DataReturn('处理异常错误', -100);
     }
 
     /**

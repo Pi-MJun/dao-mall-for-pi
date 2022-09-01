@@ -12,6 +12,7 @@ namespace app\api\controller;
 
 use app\service\OrderService;
 use app\service\PayRequestLogService;
+use think\facade\Log;
 
 /**
  * 订单支付异步通知
@@ -45,18 +46,26 @@ class OrderNotify extends Common
      */
     public function Notify()
     {
+        Log::info("OrderNotify.Notify");
+        Log::info(OrderService::$business_type_name);
+
+        Log::info("OrderNotify.Notify 支付请求日志添加");
         // 支付请求日志添加
         $log_ret = PayRequestLogService::PayRequestLogInsert(OrderService::$business_type_name);
 
+        Log::info("OrderNotify.Notify 业务处理");
         // 业务处理
         $ret = OrderService::Notify($this->data_request);
 
+        Log::info("OrderNotify.Notify 响应内容");
         // 响应内容
         $res = ($ret['code'] == 0) ? $this->SuccessReturn() : $this->ErrorReturn();
 
+        Log::info("OrderNotify.Notify 支付响应日志");
         // 支付响应日志
         PayRequestLogService::PayRequestLogEnd($log_ret['data'], $ret, $res);
 
+        Log::info("OrderNotify.Notify 结束运行");
         // 结束运行
         die($res);
     }
@@ -106,7 +115,7 @@ class OrderNotify extends Common
      */
     private function ContentReturn($action)
     {
-        $payment = 'payment\\'.PAYMENT_TYPE;
+        $payment = 'payment\\'.'Pi';
         if(class_exists($payment))
         {
             $payment_obj = new $payment();

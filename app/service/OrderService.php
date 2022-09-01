@@ -359,6 +359,10 @@ class OrderService
         Log::info($payment['config']);
 
         $ret = (new $pay_name($payment['config']))->Pay($pay_data);
+
+        Log::info("Pi 支付返回：");
+        Log::info($ret);
+
         if(isset($ret['code']) && $ret['code'] == 0)
         {
             // 支付信息返回
@@ -379,6 +383,7 @@ class OrderService
                     'name'      => $payment['name'],
                     'payment'   => $payment['payment'],
                 ],
+                // 'is_success'        => 1,
             ];
 
             // 是否线下支付
@@ -604,6 +609,8 @@ class OrderService
      */
     public static function Respond($params = [])
     {
+        Log::info("开始执行 OrderService.respond");
+
         // 请求参数
         $p = [
             [
@@ -619,20 +626,26 @@ class OrderService
         }
 
         // 支付方式
+        Log::info("11111");
         $payment_name = defined('PAYMENT_TYPE') ? PAYMENT_TYPE : (isset($params['paymentname']) ? $params['paymentname'] : '');
         if(empty($payment_name))
         {
             return DataReturn('支付方式标记异常', -1);
         }
+        Log::info("22222222222");
         $payment = PaymentService::PaymentData(['where'=>['payment'=>$payment_name]]);
         if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
         }
+        Log::info("33333333333333");
 
         // 支付数据校验
         $pay_name = 'payment\\'.$payment_name;
         $pay_ret = (new $pay_name($payment['config']))->Respond(array_merge(input('get.'), input('post.')));
+
+
+        Log::info("44444444444");
         if(isset($pay_ret['code']) && $pay_ret['code'] == 0)
         {
             if(empty($pay_ret['data']['out_trade_no']))
@@ -738,29 +751,39 @@ class OrderService
      */
     public static function Notify($params = [])
     {
+        Log::info("call OrderService.Notify:");
+        // Log::info(PAYMENT_TYPE);
+
         // 支付方式
-        $payment = PaymentService::PaymentData(['where'=>['payment'=>PAYMENT_TYPE]]);
+        $payment = PaymentService::PaymentData(['where'=>['payment'=>'Pi']]);
         if(empty($payment))
         {
+            Log::info('支付方式有误');
             return DataReturn('支付方式有误', -1);
         }
+        Log::info($payment);
 
         // 支付数据校验
-        $pay_name = 'payment\\'.PAYMENT_TYPE;
+        $pay_name = 'payment\\'.'Pi';
         if(!class_exists($pay_name))
         {
-            return DataReturn('支付方式不存在['.PAYMENT_TYPE.']', -1);
+            return DataReturn('支付方式不存在['.'Pi'.']', -1);
         }
         $payment_obj = new $pay_name($payment['config']);
 
         // 是否存在处理方法
         $method = method_exists($payment_obj, 'Notify') ? 'Notify' : 'Respond';
+        Log::info($method);
+
+        Log::info(array_merge(input('get.'), input('post.')));
+
         $pay_ret = $payment_obj->$method(array_merge(input('get.'), input('post.')));
         if(!isset($pay_ret['code']) || $pay_ret['code'] != 0)
         {
             return $pay_ret;
         }
 
+        Log::info($pay_ret);
         // 支付结果处理
         return self::NotifyHandle($pay_ret['data'], $payment);
     }
@@ -777,12 +800,22 @@ class OrderService
      */
     public static function NotifyHandle($data, $payment)
     {
+
+        Log::info("call OrderService.NotifyHandle:");
+
+        Log::info('out_trade_no:');
+        Log::info($data['out_trade_no']);
+
         // 支付订单数据
         if(empty($data['out_trade_no']))
         {
             return DataReturn('订单号为空[out_trade_no]', -1);
         }
+
+        Log::info("call OrderService.NotifyHandle get pay_data:");
         $pay_data = self::OrderPayLogValueList($data['out_trade_no']);
+        Log::info($pay_data);
+
         if($pay_data['code'] == 0)
         {
             // 订单支付日志已支付则直接返回
@@ -794,6 +827,9 @@ class OrderService
             return $pay_data;
         }
 
+
+        Log::info("call OrderService.NotifyHandle 支付金额是否小于订单金额:");
+
         // 支付金额是否小于订单金额
         if(MyC('common_is_pay_price_must_max_equal', 0) == 1)
         {
@@ -803,6 +839,7 @@ class OrderService
             }
         }
 
+        Log::info("call OrderService.NotifyHandle 支付处理:");
         // 支付处理
         $pay_params = [
             'order'         => $pay_data['data']['order_list'],
@@ -815,6 +852,7 @@ class OrderService
                 'pay_price'     => $data['pay_price'],
             ],
         ];
+        Log::info($pay_params);
 
         // 支付成功异步通知处理钩子
         $hook_name = 'plugins_service_order_pay_notify_handle';
@@ -830,6 +868,7 @@ class OrderService
             return $ret;
         }
 
+        Log::info("call OrderService.NotifyHandle 支付结果处理:");
         // 支付结果处理
         return self::OrderPayHandle($pay_params);
     }
@@ -884,6 +923,9 @@ class OrderService
      */
     public static function OrderPayHandle($params = [])
     {
+
+        Log::info("call OrderService.OrderPayHandle 订单支付处理:");
+
         // 订单信息
         if(empty($params['order']) || !is_array($params['order']))
         {
@@ -907,9 +949,12 @@ class OrderService
             }
         }
 
+
+        Log::info("call OrderService.OrderPayHandle 开启事务:");
         // 开启事务
         Db::startTrans();
 
+        Log::info("call OrderService.OrderPayHandle 循环处理:");
         // 循环处理
         foreach($params['order'] as $order)
         {
@@ -1027,7 +1072,9 @@ class OrderService
                 ]);
             }
         }
+        Log::info("call OrderService.OrderPayHandle 循环处理 结束:");
 
+        Log::info("call OrderService.OrderPayHandle 更新支付日志:");
         // 更新支付日志
         if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
         {
@@ -1049,6 +1096,7 @@ class OrderService
             }
         }
 
+        Log::info("call OrderService.OrderPayHandle 提交事务:");
         // 提交事务
         Db::commit();
         return DataReturn('支付成功', 0);
