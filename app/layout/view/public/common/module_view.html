@@ -8,7 +8,7 @@
                             <div class="module-{{$vss.value}}-container" style="{{if isset($vss['config']['frontend_config']['style'])}}{{$vss.config.frontend_config.style}}{{/if}}">
                                 {{switch vss.value}}
                                     {{case images}}
-                                        <a {{if empty($vss['config']['url'])}}href="javascript:;"{{else /}}href="{{$vss.config.url}}" target="_blank"{{/if}} class="module-images-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                        <a {{if empty($vss['config']['url'])}}href="javascript:;"{{else /}}href="{{$vss.config.url}}" target="_self"{{/if}} class="module-images-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                             <img src="{{$vss.config.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                         </a>
                                     {{/case}}
@@ -19,7 +19,7 @@
                                                     <ul class="am-slides">
                                                         {{foreach $vss.config.data_list as $i}}
                                                             <li>
-                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_blank"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_self"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                                                     <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                                                 </a>
                                                             </li>
@@ -32,7 +32,7 @@
                                                     {{foreach $vss.config.data_list as $i}}
                                                         <li>
                                                             <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_blank"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_self"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                                                     <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                                                 </a>
                                                             </div>
@@ -45,7 +45,7 @@
                                                     <ul class="am-slides">
                                                         {{foreach $vss.config.data_list as $i}}
                                                             <li>
-                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_blank"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                <a {{if empty($i['url'])}}href="javascript:;"{{else /}}href="{{$i.url}}" target="_self"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                                                     <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                                                 </a>
                                                             </li>
@@ -69,12 +69,12 @@
                                                                 {{foreach $vss.config.data_list as $g}}
                                                                     <li>
                                                                         <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                            <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                            <a href="{{$g.goods_url}}" target="_self" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                                                                 <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                                                             </a>
                                                                             <div class="item-bottom">
                                                                                 <div class="module-title">
-                                                                                    <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                                    <a href="{{$g.goods_url}}" target="_self">{{$g.title}}</a></div>
                                                                                 <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
                                                                             </div>
                                                                         </div>
@@ -89,12 +89,12 @@
                                                         {{foreach $vss.config.data_list as $g}}
                                                             <li>
                                                                 <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                    <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <a href="{{$g.goods_url}}" target="_self" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                                                         <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                                                     </a>
                                                                     <div class="item-bottom">
                                                                         <div class="module-title">
-                                                                            <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                            <a href="{{$g.goods_url}}" target="_self">{{$g.title}}</a></div>
                                                                         <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
                                                                     </div>
                                                                 </div>
@@ -113,13 +113,13 @@
                                             {{if !empty($vss['config']['keywords_list'])}}
                                                 <div class="keywords-content">
                                                     {{foreach $vss.config.keywords_list as $wd}}
-                                                        <a {{if empty($wd['url'])}}href="javascript:;"{{else /}}href="{{$wd.url}}" target="_blank"{{/if}} {{if !empty($wd['color'])}}style="color:{{$wd.color}};"{{/if}}>{{$wd.keywords}}</a>
+                                                        <a {{if empty($wd['url'])}}href="javascript:;"{{else /}}href="{{$wd.url}}" target="_self"{{/if}} {{if !empty($wd['color'])}}style="color:{{$wd.color}};"{{/if}}>{{$wd.keywords}}</a>
                                                     {{/foreach}}
                                                 </div>
                                             {{/if}}
                                             {{if !empty($vss['config']['title_more'])}}
                                                 <div class="more-content">
-                                                    <a {{if empty($vss['config']['title_more_url'])}}href="javascript:;"{{else /}}href="{{$vss.config.title_more_url}}" target="_blank"{{/if}} style="{{$vss.config.frontend_config.style_title_more}}">
+                                                    <a {{if empty($vss['config']['title_more_url'])}}href="javascript:;"{{else /}}href="{{$vss.config.title_more_url}}" target="_self"{{/if}} style="{{$vss.config.frontend_config.style_title_more}}">
                                                         <span>{{$vss.config.title_more}}</span>
                                                         <i class="am-icon-angle-right"></i>
                                                     </a>
