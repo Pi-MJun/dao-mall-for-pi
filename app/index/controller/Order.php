@@ -257,7 +257,7 @@ class Order extends Common
                 // return MyRedirect(MyUrl('index/order/PiPay'), ['tttttt' => 22]);
 
                 MyViewAssign('module_data', $ret['data']);
-                return MyView('\order\pi_pay');
+                return MyView('/order/pi_pay');
                 // site/public/goods_search
             }
         } else {

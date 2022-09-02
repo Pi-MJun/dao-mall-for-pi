@@ -26,7 +26,7 @@ use think\facade\Log;
 class PaymentPi extends Common
 {
 
-    // public static apiKey = 'z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw';
+    // public static apiKey = '6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww';
     // axios.defaults.headers.common['Authorization'] = 'Key ' + apiKey
 
     // public static axiosClient = axios.create({baseURL:'https://api.minepi.com', timeout:60000});
@@ -79,7 +79,7 @@ class PaymentPi extends Common
             "Accept-Encoding: *",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -101,9 +101,9 @@ class PaymentPi extends Common
         curl_setopt($curl, CURLOPT_TIMEOUT, 60);
 
         // 本地调试开启代理
-        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
-        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
-        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+        // curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        // curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        // curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 
 
         $data = curl_exec($curl);//返回参数
@@ -151,7 +151,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -173,9 +173,9 @@ class PaymentPi extends Common
         curl_setopt($curl, CURLOPT_TIMEOUT, 60);
 
         // 本地调试开启代理
-        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
-        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
-        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+        // curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        // curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        // curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 
 
         $data = curl_exec($curl);//返回参数
@@ -242,7 +242,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key z6mtcfxfk8c3h5j9kgijkl4ri3pmatf0un5egina4q6xi39yrr3ikiyfsesccukw",
+            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -264,9 +264,9 @@ class PaymentPi extends Common
         curl_setopt($curl, CURLOPT_TIMEOUT, 60);
 
         // 本地调试开启代理
-        curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
-        curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
-        curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+        // curl_setopt($curl, CURLOPT_PROXY, '127.0.0.1');
+        // curl_setopt($curl, CURLOPT_PROXYPORT, '10809');
+        // curl_setopt($curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 
 
 
