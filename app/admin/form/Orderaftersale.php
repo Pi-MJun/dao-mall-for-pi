@@ -120,7 +120,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退款金额(元)',
+                    'label'         => '退款金额(π)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,

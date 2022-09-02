@@ -115,7 +115,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '总价(元)',
+                'label'         => '总价(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'total_price',
                 'is_sort'       => 1,
@@ -125,7 +125,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '支付金额(元)',
+                'label'         => '支付金额(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'pay_price',
                 'is_sort'       => 1,
@@ -135,7 +135,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '单价(元)',
+                'label'         => '单价(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'price',
                 'is_sort'       => 1,
@@ -203,7 +203,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '退款金额(元)',
+                'label'         => '退款金额(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'refund_price',
                 'is_sort'       => 1,
@@ -231,7 +231,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '增加金额(元)',
+                'label'         => '增加金额(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'increase_price',
                 'is_sort'       => 1,
@@ -241,7 +241,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '优惠金额(元)',
+                'label'         => '优惠金额(π)',
                 'view_type'     => 'field',
                 'view_key'      => 'preferential_price',
                 'is_sort'       => 1,

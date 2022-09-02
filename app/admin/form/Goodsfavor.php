@@ -85,7 +85,7 @@ class GoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '销售价格(元)',
+                    'label'         => '销售价格(π)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,
@@ -96,7 +96,7 @@ class GoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '原价(元)',
+                    'label'         => '原价(π)',
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
                     'is_sort'       => 1,

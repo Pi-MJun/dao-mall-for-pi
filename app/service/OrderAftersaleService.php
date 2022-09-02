@@ -175,7 +175,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if(PriceNumberFormat($price+$history_price) > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
+            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'π, 订单金额'.$order['data']['pay_price'].'π ]', -1);
         }
 
         // 退货数量
@@ -828,7 +828,7 @@ class OrderAftersaleService
         $history_price = PriceNumberFormat(Db::name('OrderAftersale')->where($where)->sum('price'));
         if(PriceNumberFormat($aftersale['price']+$history_price) > $order['data']['pay_price'])
         {
-            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'元, 订单金额'.$order['data']['pay_price'].'元 ]', -1);
+            return DataReturn('退款金额大于支付金额[ 历史退款'.$history_price.'π, 订单金额'.$order['data']['pay_price'].'π ]', -1);
         }
 
         // 历史退货数量
@@ -1000,7 +1000,7 @@ class OrderAftersaleService
         }
 
         // 消息通知
-        $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
+        $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'π';
         MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, '订单售后', $order['data']['id']);
 
         // 订单状态日志
@@ -1112,7 +1112,7 @@ class OrderAftersaleService
             'pay_price'         => $pay_log['pay_price'],
             'refund_price'      => $aftersale['price'],
             'client_type'       => $order['client_type'],
-            'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
+            'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'π',
             'pay_time'          => $pay_log['pay_time'],
         ];
 
@@ -1195,7 +1195,7 @@ class OrderAftersaleService
         }
 
         // 钱包变更日志
-        $msg = $order['order_no'].'订单退款'.$aftersale['price'].'元';
+        $msg = $order['order_no'].'订单退款'.$aftersale['price'].'π';
         $log_data = [
             'user_id'           => $user_wallet['data']['user_id'],
             'wallet_id'         => $user_wallet['data']['id'],

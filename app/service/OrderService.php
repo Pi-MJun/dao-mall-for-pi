@@ -980,7 +980,7 @@ class OrderService
             }
 
             // 消息通知
-            $detail = '订单支付成功，金额'.PriceBeautify($order['total_price']).'元';
+            $detail = '订单支付成功，金额'.PriceBeautify($order['total_price']).'π';
             MessageService::MessageAdd($order['user_id'], '订单支付', $detail, self::$business_type_name, $order['id']);
 
             // 订单更新数据
@@ -1277,7 +1277,7 @@ class OrderService
     {
         $total_price = Db::name('Order')->where($where)->sum('total_price');
         $pay_price = Db::name('Order')->where($where)->sum('pay_price');
-        return '订单总额 '.$total_price.' 元，支付总额 '.$pay_price.' 元';
+        return '订单总额 '.$total_price.' π，支付总额 '.$pay_price.' π';
     }
 
     /**
@@ -1514,7 +1514,7 @@ class OrderService
                 {
                     $v['items'] = $detail[$v['id']];
                     $v['items_count'] = count($v['items']);
-                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].$v['total_price'].'元';
+                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].$v['total_price'].'π';
                 }
 
                 // 管理员读取

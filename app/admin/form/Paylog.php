@@ -105,7 +105,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '业务订单金额(元)',
+                    'label'         => '业务订单金额(π)',
                     'view_type'     => 'field',
                     'view_key'      => 'total_price',
                     'is_sort'       => 1,
@@ -115,7 +115,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付金额(元)',
+                    'label'         => '支付金额(π)',
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
                     'is_sort'       => 1,
