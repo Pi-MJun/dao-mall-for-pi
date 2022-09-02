@@ -208,7 +208,7 @@
                             <div class="word">
                                 {{if !empty($floor['items']) and is_array($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
-                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
+                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer" target="_self">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                     {{/foreach}}
                                 {{/if}}           
                             </div>
@@ -216,7 +216,7 @@
                                 <div class="describe">{{$floor.describe}}</div>
                             </div>
                             {{if !empty($floor['big_images'])}}
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_self">
                                     <img src="{{$floor.big_images}}" />
                                 </a>
                             {{/if}}
@@ -248,7 +248,7 @@
                             {{if !empty($floor['goods']) and is_array($floor['goods'])}}
                                 {{foreach $floor.goods as $goods_key=>$goods}}
                                     <div class="goods-items">
-                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block am-text-center">
+                                        <a href="{{$goods.goods_url}}" target="_self" class="am-block am-text-center">
                                             <!-- 首页楼层商品内部顶部钩子 -->
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <div class="plugins-tag">

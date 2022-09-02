@@ -3,7 +3,7 @@
         {{foreach $data_list as $v}}
             <li>
                 <div class="items am-padding-bottom-xs">
-                    <a href="{{$v.goods_url}}" target="_blank" class="am-block">
+                    <a href="{{$v.goods_url}}" target="_self" class="am-block">
                         <!-- 搜索页面商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
