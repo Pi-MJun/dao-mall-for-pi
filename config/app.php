@@ -35,7 +35,7 @@ return [
     'exception_tmpl'   => APP_PATH . 'tpl/think_exception.tpl',
 
     // 错误显示信息,非调试模式有效
-    'error_message'    => '系统出现错误、请联系管理员或到'.implode('', ['S','h','o','p','X','O']).'社区查阅~',
+    'error_message'    => '系统出现错误、请联系管理员或到'.implode('', ['P','i','D','A','O']).'社区查阅~',
     // 显示错误信息
     'show_error_msg'   => false,
 ];
