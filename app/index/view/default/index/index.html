@@ -50,7 +50,7 @@
                         <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
                     {{/if}}
                 </div>
-                {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
+<!--                 {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
                     <div class="member-login">
                         {{if !empty($home_user_login_type)}}
                             <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
@@ -59,7 +59,7 @@
                             <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
                         {{/if}}
                     </div>
-                {{/if}}
+                {{/if}} -->
                 {{if !empty($user)}}
                     <div class="member-center">
                         {{if !empty($user_order_status)}}
