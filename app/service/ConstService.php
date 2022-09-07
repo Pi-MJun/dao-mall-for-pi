@@ -102,6 +102,7 @@ class ConstService
                 0 => ['value' => 'username', 'name' => '账号'],
                 1 => ['value' => 'sms', 'name' => '短信'],
                 2 => ['value' => 'email', 'name' => '邮箱'],
+                3 => ['value' => 'Pi', 'name' => 'Pi授权'],
             ],
 
             // 登录方式
@@ -109,7 +110,7 @@ class ConstService
                 0 => ['value' => 'username', 'name' => '帐号密码', 'checked' => true],
                 1 => ['value' => 'email', 'name' => '邮箱验证码'],
                 2 => ['value' => 'sms', 'name' => '手机验证码'],
-                2 => ['value' => 'pi', 'name' => 'Pi授权登录'],
+                3 => ['value' => 'pi', 'name' => 'Pi授权登录'],
             ],
             
             // 性别
