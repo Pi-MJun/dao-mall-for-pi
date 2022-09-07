@@ -38,7 +38,7 @@ $store_http = (MyFileConfig('common_is_https_connect_store') == 1) ? 'https://' 
 // 配置信息
 return [
     // 开发模式
-    'is_develop'                            => true,
+    'is_develop'                            => false,
 
     // 默认编码
     'default_charset'                       => 'utf-8',

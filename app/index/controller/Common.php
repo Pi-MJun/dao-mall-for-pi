@@ -25,7 +25,6 @@ use app\service\ConfigService;
 use app\service\UserService;
 use app\service\AdminService;
 use app\service\QuickNavService;
-use think\facade\Log;
 
 /**
  * 前端公共控制器
@@ -94,13 +93,6 @@ class Common extends BaseController
         $this->data_get = input('get.');
         $this->data_request = input();
 
-
-        Log::info("control init");
-        Log::info($this->data_post);
-        Log::info($this->data_get);
-        Log::info($this->data_request);
-
-
         // 系统初始化
         $this->SystemInit();
 
@@ -130,8 +122,6 @@ class Common extends BaseController
 
         // 公共钩子初始化
         $this->CommonPluginsInit();
-
-        Log::info($this);
     }
 
     /**
@@ -317,12 +307,8 @@ class Common extends BaseController
         MyViewAssign('home_seo_site_keywords', MyC('home_seo_site_keywords'));
         MyViewAssign('home_seo_site_description', MyC('home_seo_site_description'));
 
-
-        Log::info("Common ViewInit user:");
-        Log::info($this->user);
         // 用户数据
         MyViewAssign('user', $this->user);
-
 
         // 用户中心菜单
         MyViewAssign('user_left_menu', NavigationService::UsersCenterLeftList());
