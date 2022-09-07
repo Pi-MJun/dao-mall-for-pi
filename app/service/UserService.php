@@ -51,39 +51,76 @@ class UserService
      */
     public static function LoginUserInfo($is_cache = true)
     {
+        Log::info("UserService LoginUserInfo:");
+        Log::info($is_cache);
+
         // 静态数据避免重复读取
         static $user_login_info = null;
         if($user_login_info === null)
         {
+
+            Log::info("UserService LoginUserInfo:  user_login_info === null");
+
             // 参数
             $params = input();
+            Log::info("input:");
+            Log::info($params);
 
             // 用户数据处理
             if(APPLICATION == 'web')
             {
+                Log::info("UserService LoginUserInfo:  APPLICATION == web");
+
+                Log::info( "web用户session begin");
+                Log::info(self::$user_login_key);
                 // web用户session
                 $user_login_info = MyCookie(self::$user_login_key);
+                Log::info($user_login_info);
+                Log::info( "web用户session end");
+
 
                 // 用户信息为空，指定了token则设置登录信息
                 if(empty($user_login_info))
                 {
+                    Log::info("UserService LoginUserInfo:  empty(user_login_info)");
+
                     $token = empty($params['token']) ? MyCookie(self::$user_token_key) : $params['token'];
+
+                    Log::info("UserService LoginUserInfo:  token");
+                    Log::info($token);
+
                     if(!empty($token))
                     {
+                        Log::info("UserService LoginUserInfo:  !empty($token)");
+
                         $user_login_info = self::UserTokenData($token);
+                        Log::info($user_login_info);
                         if(!empty($user_login_info) && isset($user_login_info['id']))
                         {
+
+                            Log::info("UserService LoginUserInfo:  UserLoginRecord");
+                            Log::info($user_login_info['id']);
                             self::UserLoginRecord($user_login_info['id']);
                         }
                     }
                 }
             } else {
+
+                Log::info("UserService LoginUserInfo:  APPLICATION != web");
+
                 if(!empty($params['token']))
                 {
+                    Log::info("UserService LoginUserInfo:  !empty($params[token])");
+                    Log::info($params['token']);
+
                     $user_login_info = self::UserTokenData($params['token']);
+                    Log::info($user_login_info);
                 }
             }
         }
+
+        Log::info($user_login_info);
+
 
         // 是否缓存读取
         if(!empty($user_login_info) && !$is_cache)
@@ -552,6 +589,7 @@ class UserService
                 // web端设置session
                 if(APPLICATION == 'web')
                 {
+                    Log::info("***** 存储session");
                     // 存储session
                     MyCookie(self::$user_login_key, $user);
                 }
@@ -884,7 +922,6 @@ class UserService
 
             return DataReturn('帐号不存在', -3);
         }
-        Log::info($user);
         Log::info("获取用户账户信息 通过");
 
 

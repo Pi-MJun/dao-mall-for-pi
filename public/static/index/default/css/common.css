@@ -91,7 +91,7 @@ input.add,input.min{width:15px}
 .header-top { background-color: #fafafa; border-bottom: solid 1px #f0f0f0; height: 30px; display:none; }
 .header{ max-width:1000px; margin:0px auto; font-size:12px;position: relative; }  
 
-.mobile-navigation{position: fixed;bottom:0px ;width: 100%;z-index: 999;background:#fff ;}
+.mobile-navigation{position: fixed;top:0px ;width: 100%;z-index: 999;background:#fff ;}
 .mobile-navigation li{width: 25%;padding:2px ;background:#fff ;border-top:1px solid #f5f5f5 ;float: left;text-align: center;font-size: 12px; position: relative; }
 .mobile-navigation li a { text-decoration: none; color: #666; }
 .mobile-navigation li img { width: 25px; height: 25px; margin: 0 auto; }
