@@ -26,7 +26,7 @@ use think\facade\Log;
 class PaymentPi extends Common
 {
 
-    // public static apiKey = '6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww';
+    // public static apiKey = 'hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw';
     // axios.defaults.headers.common['Authorization'] = 'Key ' + apiKey
 
     // public static axiosClient = axios.create({baseURL:'https://api.minepi.com', timeout:60000});
@@ -79,7 +79,7 @@ class PaymentPi extends Common
             "Accept-Encoding: *",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
+            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -151,7 +151,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
+            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -242,7 +242,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key 6iu9wklyqemme4l0bnkf1msizk4u0vb47xasygzem0zeqcyy8hevxrzcwxkwbcww",
+            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
