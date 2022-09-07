@@ -144,7 +144,7 @@ JS;
                     $line[] = "console.log(\"%c{$msg}\", \"{$style}\");";
                     break;
                 default:
-                    $m      = is_string($key) ? $key . ' ' . $m : $key + 1 . ' ' . $m;
+                    //$m      = is_string($key) ? $key . ' ' . $m : $key + 1 . ' ' . $m;
                     $msg    = json_encode($m);
                     $line[] = "console.log({$msg});";
                     break;
