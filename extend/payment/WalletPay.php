@@ -118,7 +118,7 @@ class WalletPay
         // 余额校验
         if($user_wallet['data']['normal_money'] < $params['total_price'])
         {
-            return DataReturn('钱包余额不足['.$user_wallet['data']['normal_money'].'元]', -10);
+            return DataReturn('钱包余额不足['.$user_wallet['data']['normal_money'].'π]', -10);
         }
 
         // 处理支付

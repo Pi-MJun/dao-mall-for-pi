@@ -214,7 +214,7 @@ class OrderSplitService
                         //     'name'       => '感恩节9折',
                         //     'price'      => 23,
                         //     'type'       => 0,
-                        //     'tips'       => '-￥23元',
+                        //     'tips'       => '-￥23π',
                         //     'business'   => null,
                         //     'ext'        => null,
                         // ],

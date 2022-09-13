@@ -308,7 +308,7 @@ class Kuaishou
         }
 
         // 退款原因
-        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
+        $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'π' : $params['refund_reason'];
 
         // 处理支付
         $parameter = [

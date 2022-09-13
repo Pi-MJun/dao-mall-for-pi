@@ -35,11 +35,11 @@ return [
             // 服务器地址
             'hostname'        => '127.0.0.1',
             // 数据库名
-            'database'        => 'shopxo',
+            'database'        => 'pidao_top',
             // 用户名
-            'username'        => 'root',
+            'username'        => 'pidao_top',
             // 密码
-            'password'        => '1234',
+            'password'        => 'r8BEACxBhQ',
             // 端口
             'hostport'        => '3306',
             // 数据库连接参数
@@ -48,9 +48,9 @@ return [
                 \PDO::ATTR_EMULATE_PREPARES => true,
             ],
             // 数据库编码默认采用utf8mb4
-            'charset'         => 'utf8',
+            'charset'         => 'utf8mb4',
             // 数据库表前缀
-            'prefix'          => 'sxo_',
+            'prefix'          => 'pidao_',
 
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'          => 0,
