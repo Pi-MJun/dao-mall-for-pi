@@ -40,3 +40,32 @@ $(function()
         FloorResizeHandle();
     });
 });
+
+
+$(function()
+{
+    console.log("Pi.init begin");
+
+    console.log(window)
+
+    console.log(navigator.userAgent)
+
+    console.log(window.location.origin);
+
+    if (window.location.origin == 'https://localhost:4430') {
+      console.log("Pi.init with sandbox to true")
+      Pi.init({ version: "2.0", sandbox: true});
+    }else{
+      console.log("Pi.init with sandbox to false")
+      Pi.init({ version: "2.0"});
+    }
+
+    //Pi.init({ version: "2.0"});
+
+
+    console.log("Pi.init end");
+    console.log(Pi);
+    console.log(Pi.authenticate);
+
+});
+
