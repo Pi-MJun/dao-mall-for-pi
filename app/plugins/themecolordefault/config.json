@@ -1,0 +1,32 @@
+{
+    "base":{
+        "plugins":"themecolordefault",
+        "name":"默认主题自定义配色",
+        "logo":"\/static\/upload\/images\/plugins_themecolordefault\/2019\/02\/09\/1549671733987654.jpg",
+        "author":"Rigxin",
+        "author_url":"https:\/\/themegate.cn\/",
+        "version":"1.0.2",
+        "desc":"可配置任何想配置的颜色",
+        "apply_terminal":[
+            "pc",
+            "h5"
+        ],
+        "apply_version":[
+            "2.2.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_view_common_top":[
+            "app\\plugins\\themecolordefault\\Hook"
+        ]
+    },
+    "history":[
+        {
+            "host":"themegate.cn",
+            "url":"http:\/\/themegate.cn\/",
+            "ip":"127.0.0.1",
+            "time":"2021-07-19 19:18:25"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "base":{
+        "plugins":"copyright",
+        "name":"版权修改",
+        "logo":"\/static\/upload\/images\/plugins_copyright\/2021\/04\/13\/1618280826480265.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.2.0",
+        "desc":"后台站点名称、web端和小程序端版权修改",
+        "apply_terminal":[
+            "pc",
+            "h5"
+        ],
+        "apply_version":[
+            "2.2.0"
+        ],
+        "is_home":false
+    },
+    "hook":[
+        
+    ],
+    "history":[
+        {
+            "host":"shopxo.com",
+            "url":"http:\/\/shopxo.com\/",
+            "ip":"127.0.0.1",
+            "time":"2021-07-30 13:44:40"
+        }
+    ]
+}

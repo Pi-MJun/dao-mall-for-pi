@@ -1,0 +1,42 @@
+{
+    "base":{
+        "plugins":"orderremind",
+        "name":"新订单语音提醒",
+        "logo":"\/static\/upload\/images\/plugins_orderremind\/2020\/03\/13\/1584113864210485.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.1.1",
+        "desc":"新订单消息提醒、语音提醒（可配置监听动作）",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "ios",
+            "android",
+            "alipay",
+            "weixin",
+            "baidu",
+            "toutiao",
+            "qq"
+        ],
+        "apply_version":[
+            "2.2.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_admin_js":[
+            "app\\plugins\\orderremind\\Hook"
+        ],
+        "plugins_admin_view_common_bottom":[
+            "app\\plugins\\orderremind\\Hook"
+        ]
+    },
+    "history":[
+        {
+            "host":"shopxo.com",
+            "url":"http:\/\/shopxo.com\/",
+            "ip":"127.0.0.1",
+            "time":"2022-01-20 21:36:28"
+        }
+    ]
+}

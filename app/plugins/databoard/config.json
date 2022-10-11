@@ -1,0 +1,32 @@
+{
+    "base":{
+        "plugins":"databoard",
+        "name":"数据看板",
+        "logo":"\/static\/upload\/images\/plugins_databoard\/2022\/01\/26\/1643165563419883.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.0.6",
+        "desc":"高大尚的数据看板，大屏幕统计数据展示，自定义定时刷新数据",
+        "apply_terminal":[
+            "pc"
+        ],
+        "apply_version":[
+            "2.2.0",
+            "2.2.1",
+            "2.2.2",
+            "2.2.3"
+        ],
+        "is_home":false
+    },
+    "hook":[
+        
+    ],
+    "history":[
+        {
+            "host":"shopxo.com",
+            "url":"http:\/\/shopxo.com\/",
+            "ip":"127.0.0.1",
+            "time":"2022-09-06 18:29:20"
+        }
+    ]
+}

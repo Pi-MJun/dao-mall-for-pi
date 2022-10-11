@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS `{PREFIX}plugins_yx_qiandao_send` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `towho` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '积分接收者',
+  `fromwho` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '积分送出者',
+  `num` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '积分量',
+  `add_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '赠送时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} COMMENT='积分互赠记录表' ROW_FORMAT=DYNAMIC;

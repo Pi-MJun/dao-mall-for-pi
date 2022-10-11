@@ -1,0 +1,32 @@
+{
+    "base":{
+        "plugins":"goodssales",
+        "name":"商品销量",
+        "logo":"\/static\/upload\/images\/plugins_goodssales\/2020\/04\/27\/1587983826312408.png",
+        "author":"风车车",
+        "author_url":"https:\/\/demo.xinyangmeishi.cn\/",
+        "version":"2.2.0",
+        "desc":"修改商品销量+访问量",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "weixin",
+            "alipay",
+            "baidu",
+            "toutiao",
+            "qq"
+        ],
+        "apply_version":[
+            "1.7.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_view_admin_goods_save":[
+            "app\\plugins\\goodssales\\Hook"
+        ],
+        "plugins_service_goods_save_handle":[
+            "app\\plugins\\goodssales\\Hook"
+        ]
+    }
+}

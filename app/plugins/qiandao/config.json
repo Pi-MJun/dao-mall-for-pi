@@ -1,0 +1,36 @@
+{
+    "base":{
+        "plugins":"qiandao",
+        "name":"签到",
+        "logo":"\/static\/upload\/images\/plugins_qiandao\/2020\/05\/26\/1590425624235237.png",
+        "author":"风车车",
+        "author_url":"https:\/\/demo.xinyangmeishi.cn\/",
+        "version":"2.2.9",
+        "desc":"签到得积分，得特殊奖励次数（如抽奖次数）、优惠券；用户积分互转；",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "weixin"
+        ],
+        "apply_version":[
+            "2.2.5",
+            "2.2.6",
+            "2.2.7"
+        ],
+        "is_home":true
+    },
+    "hook":{
+        "plugins_service_navigation_header_handle":[
+            "app\\plugins\\qiandao\\Hook"
+        ],
+        "plugins_service_users_center_left_menu_handle":[
+            "app\\plugins\\qiandao\\Hook"
+        ],
+        "plugins_service_header_navigation_top_right_handle":[
+            "app\\plugins\\qiandao\\Hook"
+        ],
+        "plugins_service_user_list_handle_end":[
+            "app\\plugins\\qiandao\\Hook"
+        ]
+    }
+}

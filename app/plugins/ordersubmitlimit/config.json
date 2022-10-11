@@ -1,0 +1,42 @@
+{
+    "base":{
+        "plugins":"ordersubmitlimit",
+        "name":"订单提交限制",
+        "logo":"\/static\/upload\/images\/plugins_ordersubmitlimit\/2020\/02\/11\/1581417689141115.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.1.5",
+        "desc":"用户订单提交、可按照订单模式、金额(字段类型)、数量限制(商品或SKU数量)、支持单品总购限制",
+        "apply_terminal":[
+            "pc",
+            "h5",
+            "ios",
+            "android",
+            "alipay",
+            "weixin",
+            "baidu",
+            "toutiao",
+            "qq"
+        ],
+        "apply_version":[
+            "2.2.0"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_buy_order_insert_begin":[
+            "app\\plugins\\ordersubmitlimit\\Hook"
+        ],
+        "plugins_service_goods_buy_nav_button_handle":[
+            "app\\plugins\\ordersubmitlimit\\Hook"
+        ]
+    },
+    "history":[
+        {
+            "host":"shopxo.com",
+            "url":"http:\/\/shopxo.com\/",
+            "ip":"127.0.0.1",
+            "time":"2022-06-29 10:08:49"
+        }
+    ]
+}

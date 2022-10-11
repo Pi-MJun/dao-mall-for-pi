@@ -1,0 +1,52 @@
+# 发票数据 - 应用
+CREATE TABLE IF NOT EXISTS `{PREFIX}plugins_invoice` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `business_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '业务类型（0订单、...更多）',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0待审核、1待开票、2已开票、3已拒绝, 4已关闭）',
+  `total_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '发票金额',
+  `apply_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '申请类型（0个人、1企业）',
+  `invoice_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '发票类型（0增值税普通电子发票、1增值税普通纸质发票、2增值税专业纸质发票）',
+  `invoice_content` char(230) NOT NULL DEFAULT '' COMMENT '发票内容',
+  `invoice_title` char(200) NOT NULL DEFAULT '' COMMENT '个人姓名或企业名称',
+  `invoice_code` char(160) NOT NULL DEFAULT '' COMMENT '企业统一社会信用代码或纳税识别号',
+  `invoice_bank` char(200) NOT NULL DEFAULT '' COMMENT '企业开户行名称',
+  `invoice_account` char(160) NOT NULL DEFAULT '' COMMENT '企业开户帐号',
+  `invoice_tel` char(15) NOT NULL DEFAULT '' COMMENT '企业联系电话',
+  `invoice_address` char(230) NOT NULL DEFAULT '' COMMENT '企业注册地址',
+  `name` char(60) NOT NULL DEFAULT '' COMMENT '收件人姓名',
+  `tel` char(15) NOT NULL DEFAULT '' COMMENT '收件人电话',
+  `email` char(60) NOT NULL DEFAULT '' COMMENT '电子邮箱（接收电子发票）',
+  `address` char(230) NOT NULL DEFAULT '' COMMENT '收件人详细地址',
+  `electronic_invoice` text COMMENT '附件地址（电子发票json存储[title,url]）',
+  `express_name` char(60) NOT NULL DEFAULT '' COMMENT '快递名称（纸质）',
+  `express_number` char(60) NOT NULL DEFAULT '' COMMENT '快递单号（纸质）',
+  `refuse_reason` char(230) NOT NULL DEFAULT '' COMMENT '拒绝原因',
+  `user_note` char(255) NOT NULL DEFAULT '' COMMENT '用户备注',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `business_type` (`business_type`),
+  KEY `apply_type` (`apply_type`),
+  KEY `invoice_type` (`invoice_type`),
+  KEY `invoice_title` (`invoice_title`),
+  KEY `invoice_bank` (`invoice_bank`),
+  KEY `status` (`status`),
+  KEY `name` (`name`),
+  KEY `tel` (`tel`),
+  KEY `email` (`email`),
+  KEY `express_number` (`express_number`)
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='发票数据 - 应用';
+
+# 发票数据业务id - 应用
+CREATE TABLE IF NOT EXISTS `{PREFIX}plugins_invoice_value` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `invoice_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '开票id',
+  `business_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '业务订单id',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `invoice_id` (`invoice_id`),
+  KEY `business_id` (`business_id`),
+  KEY `add_time` (`add_time`)
+) ENGINE=InnoDB DEFAULT CHARSET={CHARSET} ROW_FORMAT=DYNAMIC COMMENT='发票数据业务id - 应用';

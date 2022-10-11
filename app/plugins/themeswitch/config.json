@@ -1,0 +1,31 @@
+{
+    "base":{
+        "plugins":"themeswitch",
+        "name":"主题切换",
+        "logo":"\/static\/upload\/images\/plugins_themeswitch\/2021\/03\/06\/1615033233161581.jpg",
+        "author":"Devil",
+        "author_url":"https:\/\/shopxo.net\/",
+        "version":"1.2.9",
+        "desc":"H5主题根据环境自动切换、可自由控制手机模式、微信环境，自动识别参数",
+        "apply_terminal":[
+            "pc"
+        ],
+        "apply_version":[
+            "2.2.3"
+        ],
+        "is_home":false
+    },
+    "hook":{
+        "plugins_service_system_begin":[
+            "app\\plugins\\themeswitch\\Hook"
+        ]
+    },
+    "history":[
+        {
+            "host":"shopxo.com",
+            "url":"http:\/\/shopxo.com\/",
+            "ip":"127.0.0.1",
+            "time":"2022-07-26 11:37:00"
+        }
+    ]
+}
