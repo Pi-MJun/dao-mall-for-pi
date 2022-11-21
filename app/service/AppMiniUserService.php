@@ -11,6 +11,7 @@
 namespace app\service;
 
 use app\service\UserService;
+use think\facade\Log;
 
 /**
  * 小程序用户服务层
@@ -46,6 +47,121 @@ class AppMiniUserService
         ]);
 
         return $value;
+    }
+
+     public static function H5UserAuth($params = [])
+    {
+        // 授权
+        $ret = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($params);
+        if($ret['code'] == 0)
+        {
+            // unionid
+            $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
+
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $ret['data']['openid']);
+            if(empty($user) && !empty($unionid))
+            {
+                // 根据unionid获取数据
+                $user = UserService::AppUserInfoHandle(null, 'weixin_unionid', $unionid);
+            }
+            if(empty($user))
+            {
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
+            } else {
+                // 如果用户openid为空则绑定到用户下面
+                if(empty($user['weixin_openid']))
+                {
+                    if(UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'weixin_openid'))
+                    {
+                        // 登录数据更新
+                        $user = UserService::AppUserInfoHandle($user['id']);
+                    }
+                }
+            }
+
+            // 用户状态
+            if(!empty($user))
+            {
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    // 标记用户存在
+                    $user['is_user_exist'] = 1;
+                    $ret = DataReturn('授权登录成功', 0, $user);
+                }
+            }
+        }
+        return $ret;
+    }
+
+    public static function H5UserInfo($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'auth_data',
+                'error_msg'         => '授权数据为空',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+
+        Log::info($params);
+
+        if($ret === true)
+        {
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $params['openid']);
+            Log::info("先从数据库获取用户信息");
+            Log::info($user);
+
+            if(empty($user))
+            {
+                Log::info("没有该用户的情况");
+                // 字段名称不一样参数处理
+                $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);
+                Log::info($auth_data);
+
+                $auth_data['nickname'] = isset($auth_data['username']) ? $auth_data['username'] : '';
+                $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
+                $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
+
+                // 公共参数处理
+                $auth_data['weixin_unionid'] = '';
+                $auth_data['openid'] = $params['openid'];
+                $auth_data['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
+
+                Log::info("准备执行 AuthUserProgram");
+                $ret = UserService::AuthUserProgram($auth_data, 'weixin_openid');
+            } else {
+                Log::info("存在该用户的情况");
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
+            }
+
+            // $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);
+
+            // $user = $auth_data;
+
+            // Log::info($auth_data);
+
+            // $ret = DataReturn('授权成功', 0, $user);   
+        } else {
+            $ret = DataReturn($ret, -1);
+        }
+
+        Log::info($ret);
+        return $ret;
     }
 
     /**

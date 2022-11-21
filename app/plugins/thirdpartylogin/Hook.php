@@ -105,7 +105,7 @@ class Hook
                     break;
 
                 // 公共返回接口
-                case 'plugins_service_base_commin' :
+                case 'plugins_service_base_common' :
                     $this->PluginsBaseCommonData($params);
                     break;
             }
@@ -380,7 +380,7 @@ class Hook
     {
         // 排除独立登录页面的插件
         $pluginsname = MyInput('pluginsname');
-        if(in_array($pluginsname, ['shop', 'realstore', 'chat']))
+        if(in_array($pluginsname, ['shop', 'realstore', 'chat', 'erp']))
         {
             return '';
         }

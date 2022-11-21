@@ -5,7 +5,7 @@
         "logo":"\/static\/upload\/images\/plugins_thirdpartylogin\/2021\/05\/21\/1621564663213460.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
-        "version":"1.1.6",
+        "version":"1.1.9",
         "desc":"第三方登录插件、支持平台（钉钉、支付宝、微信、QQ、微博）均支持手机，APP支持（微信、QQ、苹果）",
         "apply_terminal":[
             "pc",
@@ -44,7 +44,7 @@
         "plugins_view_header_navigation_top_left_end":[
             "app\\plugins\\thirdpartylogin\\Hook"
         ],
-        "plugins_service_base_commin":[
+        "plugins_service_base_common":[
             "app\\plugins\\thirdpartylogin\\Hook"
         ]
     },
@@ -53,7 +53,7 @@
             "host":"shopxo.com",
             "url":"http:\/\/shopxo.com\/",
             "ip":"127.0.0.1",
-            "time":"2022-05-11 11:55:50"
+            "time":"2022-10-25 12:13:30"
         }
     ]
 }

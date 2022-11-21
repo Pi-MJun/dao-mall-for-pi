@@ -37,8 +37,16 @@ class PlatformUserService
      */
     public static function PlatformUserLoginHandle($platform, $data, $plugins_config)
     {
-        // 当前登录用户
+        // 当前登录用户、存在已登录用户则校验状态（无效状态则赋值空）
         $login_user = UserService::LoginUserInfo();
+        if(!empty($login_user))
+        {
+            $check = UserService::UserStatusCheck('id', $login_user['id']);
+            if($check['code'] != 0)
+            {
+                $login_user = [];
+            }
+        }
 
         // 获取用户信息
         $user_id = 0;
@@ -491,7 +499,7 @@ class PlatformUserService
             }
 
             // 设置cookie数据
-            cookie('user_info', json_encode($user, JSON_UNESCAPED_UNICODE));
+            MyCookie('user_info', json_encode($user, JSON_UNESCAPED_UNICODE), false);
             return true;
         }
         return false;
@@ -585,14 +593,33 @@ class PlatformUserService
             return DataReturn($ret, -1);
         }
 
+        // 获取数据
+        $info = Db::name('PluginsThirdpartyloginUser')->where(['id'=>intval($params['id']), 'user_id'=>$params['user']['id']])->find();
+        if(empty($info))
+        {
+            return DataReturn('绑定数据不存在', -1);
+        }
+
         // 开始处理
         $data = [
             'user_id'   => 0,
             'status'    => 2,
             'upd_time'  => time(),
         ];
-        if(Db::name('PluginsThirdpartyloginUser')->where(['id'=>intval($params['id']), 'user_id'=>$params['user']['id']])->update($data))
+        if(Db::name('PluginsThirdpartyloginUser')->where(['id'=>$info['id']])->update($data))
         {
+            switch($info['platform'])
+            {
+                // 微信
+                case 'weixin' :
+                    // 去除用户表webopenid
+                    $weixin_web_openid = Db::name('User')->where(['id'=>$info['user_id']])->value('weixin_web_openid');
+                    if(!empty($weixin_web_openid) && $weixin_web_openid == $info['openid'])
+                    {
+                        Db::name('User')->where(['id'=>$info['user_id']])->update(['weixin_web_openid'=>'']);
+                    }
+                    break;
+            }
             return DataReturn('解绑成功', 0);
         }
         return DataReturn('解绑失败', -1);

@@ -22,6 +22,7 @@ use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
 use app\service\IntegralService;
 use app\service\AppMiniUserService;
+use think\facade\Log;
 
 /**
  * 用户
@@ -191,6 +192,8 @@ class User extends Common
      */
     public function AppMiniUserAuth()
     {
+        Log::info("api user AppMiniUserAuth");
+
         $module = '\app\service\AppMiniUserService';
         $action = ucfirst(APPLICATION_CLIENT_TYPE).'UserAuth';
         if(method_exists($module, $action))
@@ -212,8 +215,14 @@ class User extends Common
      */
     public function AppMiniUserInfo()
     {
+        Log::info("api user AppMiniUserInfo");
+
         $module = '\app\service\AppMiniUserService';
         $action = ucfirst(APPLICATION_CLIENT_TYPE).'UserInfo';
+        // $action = 'PiUserInfo';
+
+        Log::info($action);
+
         if(method_exists($module, $action))
         {
             $ret = AppMiniUserService::$action($this->data_post);
@@ -232,9 +241,13 @@ class User extends Common
      */
     public function Center()
     {
+
+        Log::info("api user Center");
         // 登录校验
         $this->IsLogin();
 
+        Log::info($this->user);
+        
         // 订单总数
         $where = ['user_id'=>$this->user['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
         $user_order_count = OrderService::OrderTotal($where);

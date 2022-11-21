@@ -136,12 +136,12 @@ class BaseService
             'method'    => 'IsTextHandle',
         ],
         'price' => [
-            'title'     => '商品销售价(元)',
+            'title'     => '商品销售价(π)',
             'field'     => 'price',
             'type'      => 'spec',
         ],
         'original_price' => [
-            'title'     => '商品原价(元)',
+            'title'     => '商品原价(π)',
             'field'     => 'original_price',
             'type'      => 'spec',
             'data_type' => 'float',

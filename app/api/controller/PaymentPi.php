@@ -26,7 +26,7 @@ use think\facade\Log;
 class PaymentPi extends Common
 {
 
-    // public static apiKey = 'hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw';
+    // public static apiKey = '1zpvlbygh8c265qi1ubmutt54mfs3yxbhibsxz6kouqkxt1ys3h8zpn6wg1nthyf';
     // axios.defaults.headers.common['Authorization'] = 'Key ' + apiKey
 
     // public static axiosClient = axios.create({baseURL:'https://api.minepi.com', timeout:60000});
@@ -59,15 +59,15 @@ class PaymentPi extends Common
 
         $params = $this->data_request;
         Log::info($params);
-        Log::info($params['id']);
-        Log::info($params['price']);
+        // Log::info($params['id']);
+        // Log::info($params['price']);
         Log::info($params['paymentId']);
 
         //order id
-        $orderid = $params['id'];
-        $price = $params['price'];
-        Log::info($orderid);
-        Log::info($price);
+        // $orderid = $params['id'];
+        // $price = $params['price'];
+        // Log::info($orderid);
+        // Log::info($price);
 
 
         $data  = array();
@@ -79,7 +79,7 @@ class PaymentPi extends Common
             "Accept-Encoding: *",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
+            "Authorization: "."Key 1zpvlbygh8c265qi1ubmutt54mfs3yxbhibsxz6kouqkxt1ys3h8zpn6wg1nthyf",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -141,7 +141,7 @@ class PaymentPi extends Common
         Log::info($params);
         Log::info($params['paymentId']);
         Log::info($params['txid']);
-        Log::info($params['id']);
+        // Log::info($params['id']);
 
 
         $data=json_encode(array('txid'=> $params['txid']));
@@ -151,7 +151,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
+            "Authorization: "."Key 1zpvlbygh8c265qi1ubmutt54mfs3yxbhibsxz6kouqkxt1ys3h8zpn6wg1nthyf",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 
@@ -242,7 +242,7 @@ class PaymentPi extends Common
             "Accept: */*",
             "Content-Type: application/json",
             // "Content-Length: ".strlen($data),
-            "Authorization: "."Key hkvvdsvd6kxn5hmgoze2grak1xbuzocgu1wduhre82w0uhlpbbibpotf4cucavqw",
+            "Authorization: "."Key 1zpvlbygh8c265qi1ubmutt54mfs3yxbhibsxz6kouqkxt1ys3h8zpn6wg1nthyf",
             "Access-Control-Allow-Origin: *"
             );//Header参数
 

@@ -156,7 +156,7 @@ class OrderPriceService
                 'name'       => empty($params['opt_name']) ? '管理员修改' : $params['opt_name'],
                 'price'      => $opt_price,
                 'type'       => $opt_type,
-                'tips'       => (($opt_type == 1) ? '+' : '-').$currency_data['currency_symbol'].$opt_price.'元',
+                'tips'       => (($opt_type == 1) ? '+' : '-').$currency_data['currency_symbol'].$opt_price.'π',
                 'business'   => self::$plugins_business_value,
             ];
             if($key == -1)
@@ -219,7 +219,7 @@ class OrderPriceService
     private static function UserMessageNotice($user_id, $order_id, $order_no, $total_price, $currency_symbol)
     {
         // 是否发送站内信
-        $msg = '管理员将订单'.$order_no.', 价格修改为'.$currency_symbol.$total_price.'元, 请尽快支付哦！';
+        $msg = '管理员将订单'.$order_no.', 价格修改为'.$currency_symbol.$total_price.'π, 请尽快支付哦！';
         MessageService::MessageAdd($user_id, '订单价格修改', $msg, OrderBaseService::$message_business_type_order_price, $order_id);
     }
 }

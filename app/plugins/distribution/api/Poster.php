@@ -62,6 +62,16 @@ class Poster extends Common
 
             // 海报
             $poster = PosterService::UserPoster(['user'=>$this->user]);
+            if(!empty($poster['data']))
+            {
+                // 海报更新版本号，防止缓存
+                $user_poster_images_ver = MySession('user_poster_images_ver');
+                if($user_poster_images_ver != null)
+                {
+                    $join = (stripos($poster['data'], '?') === false) ? '?' : '&';
+                    $poster['data'] .= $join.'ver='.$user_poster_images_ver;
+                }
+            }
 
             // 返回数据
             $result = [

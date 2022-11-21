@@ -66,7 +66,7 @@ class BaseService
         if(!empty($ret['data']))
         {
             // 订单模式
-            $ret['data']['order_model'] = empty($ret['data']['order_model']) ? [] : (is_array($ret['data']['order_model']) ? $ret['data']['order_model'] : explode(',', $ret['data']['order_model']));
+            $ret['data']['order_model'] = (!isset($ret['data']['order_model']) || $ret['data']['order_model'] == '') ? [] : (is_array($ret['data']['order_model']) ? $ret['data']['order_model'] : explode(',', $ret['data']['order_model']));
 
             // 订单模式
             $order_model_names = [];

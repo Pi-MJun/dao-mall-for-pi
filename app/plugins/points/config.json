@@ -5,7 +5,7 @@
         "logo":"\/static\/upload\/images\/plugins_points\/2020\/12\/23\/1608708995425820.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
-        "version":"1.2.4",
+        "version":"1.2.5",
         "desc":"下单积分抵扣，商品兑换，用户注册（邀请人、注册人）奖励积分",
         "apply_terminal":[
             "pc",
@@ -19,7 +19,7 @@
             "qq"
         ],
         "apply_version":[
-            "2.2.1"
+            "2.3.1"
         ],
         "is_home":true
     },
@@ -84,7 +84,7 @@
             "host":"shopxo.com",
             "url":"http:\/\/shopxo.com\/",
             "ip":"127.0.0.1",
-            "time":"2022-07-09 11:54:18"
+            "time":"2022-10-21 22:39:14"
         }
     ]
 }

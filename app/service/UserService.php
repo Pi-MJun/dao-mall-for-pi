@@ -1875,8 +1875,14 @@ class UserService
 
         // 用户信息处理
         $user = self::AppUserInfoHandle(null, $field, $params['openid']);
+
+        Log::info($user);
+
         if(!empty($user))
         {
+
+            Log::info("已经存在该用户");
+            // 已经存在该用户
             // 用户状态
             if($user['status'] != 0)
             {
@@ -1908,9 +1914,13 @@ class UserService
 
             return DataReturn('授权成功', 0, $user);
         } else {
+
+            Log::info("不存在该用户的情况");
+
             // 是否需要添加用户
             $is_insert_user = false;
 
+            Log::info("开始处理unionid");
             // 用户unionid
             $unionid = self::UserUnionidHandle($params);
             if(!empty($unionid['field']) && !empty($unionid['value']))
@@ -1987,13 +1997,18 @@ class UserService
                 }
             }
 
+            Log::info("$is_insert_user:");
+
+            Log::info($is_insert_user);
             // 添加用户
             if($is_insert_user)
             {
+                Log::info("开始添加用户");
                 // 是否需要审核
                 $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
                 $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
 
+                Log::info($data);
                 // 添加用户
                 $ret = self::UserInsert($data, $params);
                 if($ret['code'] == 0)

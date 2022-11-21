@@ -205,7 +205,7 @@ class Hook
                 // 后台订单动态列表邀请用户
                 case 'plugins_module_form_admin_order_index' :
                 case 'plugins_module_form_admin_order_detail' :
-                    if(in_array($this->module_name.$this->controller_name.$this->action_name, ['adminorderindex', 'adminorderdetail']) && isset($this->plugins_config['is_admin_order_user_referrer_show']) && $this->plugins_config['is_admin_order_user_referrer_show'] == 1)
+                    if(isset($this->plugins_config['is_admin_order_user_referrer_show']) && $this->plugins_config['is_admin_order_user_referrer_show'] == 1)
                     {
                         $ret = $this->AdminFormOrderHandle($params);
                     }
@@ -698,7 +698,7 @@ class Hook
                 $plugins = [
                     'name'      => '分销插件返佣配置',
                     'desc'      => '请按照规则填写',
-                    'tips'      => '1: r 代表按照比例, s 代表固定金额。<br />2: 换行区分[表示1~3级，超出3行则超出的行视为无效]。<br />3: 跳级换行为空即可。<br /><span class="am-margin-left-xs">4: 列子：</span><br /><span class="am-margin-left-sm">4.1: 一级返佣5%, 二级返佣3%, 三级返佣2π</span><br /><span class="am-margin-left-lg">r|5</span><br /><span class="am-margin-left-lg">r|3</span><br /><span class="am-margin-left-lg">s|2</span> <br /><span class="am-margin-left-sm">4.2: 一级返佣10%, 二级不返佣, 三级返佣5π</span><br /><span class="am-margin-left-lg">r|10</span><br /><span class="am-margin-left-lg"></span><br /><span class="am-margin-left-lg">s|5</span>',
+                    'tips'      => '1: r 代表按照比例, s 代表固定金额。<br />2: 换行区分[表示1~3级，超出3行则超出的行视为无效]。<br />3: 跳级换行为空即可。<br /><span class="am-margin-left-xs">4: 列子：</span><br /><span class="am-margin-left-sm">4.1: 一级返佣5%, 二级返佣3%, 三级返佣2元</span><br /><span class="am-margin-left-lg">r|5</span><br /><span class="am-margin-left-lg">r|3</span><br /><span class="am-margin-left-lg">s|2</span> <br /><span class="am-margin-left-sm">4.2: 一级返佣10%, 二级不返佣, 三级返佣5元</span><br /><span class="am-margin-left-lg">r|10</span><br /><span class="am-margin-left-lg"></span><br /><span class="am-margin-left-lg">s|5</span>',
                     'element'   => $element,
                 ];
                 $params['data'][] = $plugins;

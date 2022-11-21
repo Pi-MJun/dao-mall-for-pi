@@ -5,7 +5,7 @@
         "logo":"\/static\/upload\/images\/plugins_distribution\/2019\/06\/03\/1559569612474606.jpg",
         "author":"Devil",
         "author_url":"https:\/\/shopxo.net\/",
-        "version":"1.6.8",
+        "version":"1.6.9",
         "desc":"可配置向上1~3级返佣、向下指定用户数量返佣、用户分享赚取佣金、统计、小程序商品海报、取货点、佣金可配置具体到SKU(比例和固定金额)、上下级返积分、指定商品返现\/返佣\/阶梯返佣、自提地址切换（支持多商户使用）",
         "apply_terminal":[
             "pc",
@@ -111,7 +111,7 @@
             "host":"shopxo.com",
             "url":"http:\/\/shopxo.com\/",
             "ip":"127.0.0.1",
-            "time":"2022-08-24 18:03:52"
+            "time":"2022-09-23 11:48:29"
         }
     ]
 }

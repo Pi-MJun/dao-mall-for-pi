@@ -56,7 +56,7 @@ class Score
 					'form_name'             => 'fromwho',
 					'where_type_custom'     => 'in',
 					'where_value_custom'    => 'WhereValueUserInfo',
-					'placeholder'           => '请输入Pi用户名/昵称',
+					'placeholder'           => '请输入用户名/昵称/手机/邮箱',
 				],
 			],
 			[
@@ -70,7 +70,7 @@ class Score
 					'form_name'             => 'towho',
 					'where_type_custom'     => 'in',
 					'where_value_custom'    => 'WhereValueUserInfo',
-					'placeholder'           => '请输入Pi用户名/昵称',
+					'placeholder'           => '请输入用户名/昵称/手机/邮箱',
 				],
 			],
 			[

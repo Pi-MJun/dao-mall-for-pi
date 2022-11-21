@@ -40,7 +40,8 @@ class Poster extends Common
         $user_poster_images_ver = MySession('user_poster_images_ver');
         if($user_poster_images_ver != null)
         {
-            $poster['data'] .= '#ver='.$user_poster_images_ver;
+            $join = (stripos($poster['data'], '?') === false) ? '?' : '&';
+            $poster['data'] .= $join.'ver='.$user_poster_images_ver;
         }
         MyViewAssign('poster', $poster);
 
